@@ -1,30 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
+import CreateRoomForm from '../components/CreateRoomForm';
+import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
   const [rooms, setRooms] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-
+  const { token } = useAuth();
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
     if (!token) {
-      navigate('/login'); // Redirect to Login if no token
+      navigate('/login');
       return;
     }
 
     const fetchNearbyRooms = async () => {
       try {
-        // Example: Get user's location
         navigator.geolocation.getCurrentPosition(async (position) => {
           const { latitude, longitude } = position.coords;
 
-          const { data } = await API.post(
-            '/rooms/nearby',
-            { latitude, longitude, radiusKm: 5 }, // Example radius
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
+          const { data } = await API.get('/rooms', {
+            params: { latitude, longitude, radiusKm: 5 },
+            headers: { Authorization: `Bearer ${token}` },
+          });
 
           setRooms(data);
         });
@@ -37,19 +36,63 @@ const Home = () => {
     };
 
     fetchNearbyRooms();
-  }, [navigate]);
+  }, [navigate, token]);
+
+  const handleRoomCreated = () => {
+    setShowModal(false);
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords;
+      const { data } = await API.post(
+        '/rooms',
+        { latitude, longitude, radiusKm: 5 },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setRooms(data);
+    });
+  };
+
+  const handleJoinRoom = async (roomId) => {
+    try {
+      await API.post(
+        `/rooms/${roomId}`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      navigate(`/room/${roomId}`);
+    } catch (error) {
+      console.error(
+        'Failed to join room:',
+        error.response?.data?.error || error.message
+      );
+      alert('Failed to join room. Please try again.');
+    }
+  };
 
   return (
     <div>
       <h2>Nearby Rooms</h2>
+      <button onClick={() => setShowModal(true)}>+ Create Room</button>
+
       <ul>
         {rooms.map((room) => (
           <li key={room.id}>
             {room.name}
-            <button onClick={() => navigate(`/chat/${room.id}`)}>Join</button>
+            <button onClick={() => handleJoinRoom(room.id)}>Join</button>
           </li>
         ))}
       </ul>
+
+      {showModal && (
+        <div>
+          <div>
+            <CreateRoomForm
+              onClose={() => setShowModal(false)}
+              onSubmit={handleRoomCreated}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -20,7 +20,8 @@ const Login = () => {
       const res = await API.post('/users/login', formData);
       login(res.data.token);
       navigate('/');
-    } catch (err) {
+    } catch (error) {
+      console.log(error);
       setError('Invalid credentials');
     }
   };
