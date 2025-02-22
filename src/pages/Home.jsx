@@ -38,27 +38,19 @@ const Home = () => {
     fetchNearbyRooms();
   }, [navigate, token]);
 
-  const handleRoomCreated = () => {
+  const handleCreateRoom = async (formData) => {
     setShowModal(false);
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const { latitude, longitude } = position.coords;
-      const { data } = await API.post(
-        '/rooms',
-        { latitude, longitude, radiusKm: 5 },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      setRooms(data);
-    });
+    const { name, startsAt, expiresAt, location } = formData;
+    const { data } = await API.post(
+      '/rooms',
+      { name, startsAt, expiresAt, location },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    navigate(`/room/${data.id}`);
   };
 
   const handleJoinRoom = async (roomId) => {
     try {
-      await API.post(
-        `/rooms/${roomId}`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
       navigate(`/room/${roomId}`);
     } catch (error) {
       console.error(
@@ -88,7 +80,7 @@ const Home = () => {
           <div>
             <CreateRoomForm
               onClose={() => setShowModal(false)}
-              onSubmit={handleRoomCreated}
+              onSubmit={handleCreateRoom}
             />
           </div>
         </div>
