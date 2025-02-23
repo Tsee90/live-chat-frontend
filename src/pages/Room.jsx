@@ -3,11 +3,10 @@ import { useParams } from 'react-router-dom';
 import API from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import socket from '../socket';
 
 const Room = () => {
   const navigate = useNavigate();
-  const { token } = useAuth();
+  const { token, socket } = useAuth();
   const { roomId } = useParams();
   const [roomName, setRoomName] = useState('');
   const [users, setUsers] = useState([]);
@@ -18,6 +17,7 @@ const Room = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (!token || !socket) return;
     const fetchRoom = async () => {
       try {
         socket.emit('join_room', { roomId });
@@ -27,7 +27,6 @@ const Room = () => {
 
         const { messages, users, active, name } = data;
         setMessages(messages);
-        console.log(messages);
         setRoomName(name);
         setUsers(users);
         setActive(active);
@@ -48,7 +47,7 @@ const Room = () => {
       });
     };
 
-    const handleReceiveMessage = (message) => {
+    const handleReceiveMessage = ({ message }) => {
       setMessages((prevMessages) => {
         const exists = prevMessages.some((m) => m.id === message.id);
         return exists ? prevMessages : [...prevMessages, message];
@@ -68,13 +67,14 @@ const Room = () => {
       socket.off('receive_message', handleReceiveMessage);
       socket.off('user_left', handleUserLeft);
     };
-  }, [roomId, token]);
+  }, [roomId, token, socket]);
 
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
 
     try {
       socket.emit('send_message', { message: newMessage });
+      setNewMessage('');
     } catch (error) {
       console.error('Failed to send message:', error);
     }
