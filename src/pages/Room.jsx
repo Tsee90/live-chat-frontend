@@ -18,6 +18,7 @@ const Room = () => {
 
   useEffect(() => {
     if (!token || !socket) return;
+
     const fetchRoom = async () => {
       try {
         socket.emit('join_room', { roomId });
@@ -47,33 +48,38 @@ const Room = () => {
       });
     };
 
-    const handleReceiveMessage = ({ message }) => {
-      setMessages((prevMessages) => {
-        const exists = prevMessages.some((m) => m.id === message.id);
-        return exists ? prevMessages : [...prevMessages, message];
-      });
+    const handleReceiveMessage = ({ messages }) => {
+      setMessages(messages);
     };
     const handleUserLeft = ({ userId }) => {
       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
     };
 
+    const handleReconnect = () => {
+      console.log('reconnecting...');
+      fetchRoom();
+    };
+
     socket.on('joined_room', handleJoinedRoom);
     socket.on('receive_message', handleReceiveMessage);
     socket.on('user_left', handleUserLeft);
+    socket.on('connect', handleReconnect);
 
     return () => {
       socket.emit('leave_room');
       socket.off('joined_room', handleJoinedRoom);
       socket.off('receive_message', handleReceiveMessage);
       socket.off('user_left', handleUserLeft);
+      socket.off('connect', handleReconnect);
     };
   }, [roomId, token, socket]);
 
   const handleSendMessage = async () => {
+    const createdAt = new Date().toISOString();
     if (!newMessage.trim()) return;
 
     try {
-      socket.emit('send_message', { message: newMessage });
+      socket.emit('send_message', { message: newMessage, createdAt });
       setNewMessage('');
     } catch (error) {
       console.error('Failed to send message:', error);
