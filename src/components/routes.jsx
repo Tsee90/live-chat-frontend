@@ -3,6 +3,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Room from '../pages/Room';
 import Signup from '../pages/Signup';
+import VerifyEmail from '../pages/VerifyEmail';
 
 const routes = [
   {
@@ -13,6 +14,7 @@ const routes = [
       { path: '/login', element: <Login></Login> },
       { path: '/room/:roomId', element: <Room></Room> },
       { path: '/signup', element: <Signup></Signup> },
+      { path: '/verify-email/', element: <VerifyEmail></VerifyEmail> },
     ],
   },
 ];

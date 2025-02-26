@@ -1,0 +1,156 @@
+/* Root Variables */
+:root {
+  --theme-color: rgb(200, 69, 200);
+  --theme-font-family: 'Roboto', sans-serif;
+  --light-font-color: white;
+  --dark-font-color: black;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Remove list styles */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Remove default link styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Remove default button styles */
+button {
+  background-color: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Set default font family */
+body {
+  font-family: var(--theme-font-family);
+  line-height: 1.6;
+  background-color: rgb(254, 254, 254);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure media elements are responsive */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent text selection for non-editable elements */
+button,
+a {
+  user-select: none;
+}
+
+/* Global methods */
+
+/* Flexbox methods */
+.displayFlexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.displayFlexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.alignItemsCenter {
+  align-items: center;
+}
+
+.justifyContentSpaceBetween {
+  justify-content: space-between;
+}
+
+.justifyContentSpaceAround {
+  justify-content: space-around;
+}
+
+.justifyContentCenter {
+  justify-content: center;
+}
+
+/* Single methods */
+
+.borderRadius50 {
+  border-radius: 50%;
+}
+
+.fontWeightBold {
+  font-weight: bold;
+}
+
+.flexGrow1 {
+  flex-grow: 1;
+}
+
+.themeColor {
+  color: var(--theme-color);
+}
+
+.gap10px {
+  gap: 10px;
+}
+
+/* Default methods */
+
+.defaultButton {
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: filter 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.defaultForm {
+  height: 40%;
+  width: 400px;
+  max-width: 75%;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  gap: 10px;
+}
+
+.defaultInputsContainer {
+  gap: 10px;
+  width: 100%;
+}
+
+.defaultInput {
+  width: 85%;
+  height: 35px;
+  border-radius: 5px;
+  background-color: rgb(224, 224, 224);
+  border: none;
+  text-align: center;
+  font-size: 15px;
+}
+
+.defaultMainContainer {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
+}

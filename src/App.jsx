@@ -1,10 +1,20 @@
-import Nav from './components/Nav';
+import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import Nav from './components/Nav';
+import { useAuth } from './context/AuthContext';
 
 function App() {
+  const { forcedLogout } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (forcedLogout) {
+      navigate('/login');
+    }
+  }, [forcedLogout, navigate]);
+
   return (
-    <div>
+    <div className={`displayFlexColumn flexGrow1`}>
       <Nav />
       <Outlet />
     </div>

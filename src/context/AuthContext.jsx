@@ -8,6 +8,8 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem('token'));
   const [user, setUser] = useState(null);
   const [socket, setSocket] = useState(null);
+  const [disconnected, setDisconnected] = useState(true);
+  const [forcedLogout, setForcedLogout] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -19,8 +21,26 @@ export const AuthProvider = ({ children }) => {
           { extraHeaders: { Authorization: `Bearer ${token}` } }
         );
         setSocket(newSocket);
+        newSocket.on('connect', () => {
+          setDisconnected((prev) => {
+            if (prev) return false;
+            return prev;
+          });
+        });
+        newSocket.on('connect_error', () => {
+          console.log('connection error');
+          setDisconnected((prev) => {
+            if (!prev) return true;
+            return prev;
+          });
+        });
+        newSocket.on('force_logout', () => {
+          logout();
+          setForcedLogout(true);
+        });
         return () => {
           newSocket.disconnect();
+          newSocket.removeAllListeners();
         };
       } catch (error) {
         console.error('Invalid token:', error);
@@ -53,7 +73,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, socket, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, socket, disconnected, forcedLogout, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -1,0 +1,24 @@
+.form {
+}
+
+.title {
+  font-size: 30px;
+}
+
+.loginButton {
+  background-color: var(--theme-color);
+  color: var(--light-font-color);
+}
+
+.loginButton:hover {
+  filter: brightness(1.2);
+}
+
+.noAccount {
+  font-size: 15px;
+  color: rgb(119, 119, 119);
+}
+
+.signupLink:hover {
+  text-decoration: underline;
+}

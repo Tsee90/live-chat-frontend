@@ -124,7 +124,9 @@ const Room = () => {
         <input
           type="text"
           value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value) setNewMessage(e.target.value);
+          }}
           placeholder="Type your message..."
           onKeyDown={(e) => {
             if (e.key === 'Enter' && newMessage.trim()) {

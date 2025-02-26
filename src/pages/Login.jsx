@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
 import { useAuth } from '../context/AuthContext';
+import styles from '../styles/Login.module.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -27,27 +28,49 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+    <div
+      className={`defaultMainContainer alignItemsCenter justifyContentCenter ${styles.mainContainer}`}
+    >
+      <form
+        onSubmit={handleSubmit}
+        className={`displayFlexColumn justifyContentSpaceAround alignItemsCenter defaultForm ${styles.form}`}
+      >
+        <div className={`fontWeightBold ${styles.title}`}>Log In</div>
+        <div
+          className={`displayFlexColumn alignItemsCenter defaultInputsContainer`}
+        >
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+            className={`defaultInput`}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className={`defaultInput`}
+          />
+        </div>
         {error && <p className="text-red-500">{error}</p>}
-        <button type="submit">Login</button>
+        <button type="submit" className={`defaultButton ${styles.loginButton}`}>
+          Login
+        </button>
+        <div className={`${styles.noAccount}`}>
+          Don't have an account?{' '}
+          <a
+            href="/signup"
+            className={`themeColor fontWeightBold ${styles.signupLink}`}
+          >
+            Sign Up Here
+          </a>
+        </div>
       </form>
     </div>
   );

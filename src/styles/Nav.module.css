@@ -1,0 +1,50 @@
+.nav {
+  background-color: var(--theme-color);
+  color: var(--light-font-color);
+  font-family: var(--theme-font-family);
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+.title {
+  font-size: 32px;
+}
+
+.userLoggedIn {
+}
+
+.logOutButton {
+  background-color: #ff4d4d;
+}
+
+.logOutButton:hover {
+  background-color: #d43f3f;
+}
+
+.statusIndicator {
+  width: 10px;
+  height: 10px;
+}
+
+.online {
+  background-color: green;
+}
+
+.offline {
+  background-color: red;
+}
+
+.userLoggedOut {
+}
+
+.signup {
+  font-size: 20px;
+  background-color: rgb(22, 158, 22);
+}
+
+.signup:hover {
+  filter: brightness(1.2);
+}
+
+.login:hover {
+  text-decoration: underline;
+}
