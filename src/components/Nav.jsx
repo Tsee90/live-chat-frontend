@@ -49,7 +49,7 @@ const Nav = () => {
     <nav
       className={`displayFlexRow alignItemsCenter justifyContentSpaceBetween ${styles.nav} `}
     >
-      <div className={`fontWeightBold ${styles.title}`}>Chizmiz.live</div>
+      <div className={`fontWeightBold ${styles.title}`}>Chizmiz</div>
       {user ? userLoggedIn : userLoggedOut}
     </nav>
   );

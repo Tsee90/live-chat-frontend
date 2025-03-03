@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 const CreateRoomForm = ({ onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
     name: '',
-    startsAt: new Date().toISOString(),
-    expiresAt: '',
   });
   const [location, setLocation] = useState(null);
   const [locationError, setLocationError] = useState('');
@@ -29,6 +27,7 @@ const CreateRoomForm = ({ onClose, onSubmit }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -56,16 +55,7 @@ const CreateRoomForm = ({ onClose, onSubmit }) => {
             required
           />
         </div>
-        <div>
-          <label>Expires At:</label>
-          <input
-            type="datetime-local"
-            name="expiresAt"
-            value={formData.expiresAt}
-            onChange={handleChange}
-            required
-          />
-        </div>
+
         {locationError && <p>{locationError}</p>}
         <div>
           <button type="submit">Create Room</button>
