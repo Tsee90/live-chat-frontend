@@ -114,6 +114,10 @@ a {
   gap: 10px;
 }
 
+.fontSize30px {
+  font-size: 30px;
+}
+
 /* Default methods */
 
 .defaultButton {
@@ -123,7 +127,7 @@ a {
 }
 
 .defaultForm {
-  height: 40%;
+  min-height: 40%;
   width: 400px;
   max-width: 75%;
   border-radius: 10px;
@@ -150,7 +154,35 @@ a {
 
 .defaultMainContainer {
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
   height: 100%;
   width: 100%;
+}
+
+.defaultErrorText {
+  color: red;
+  text-align: center;
+}
+
+.defaultErrorContainer {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  max-width: 75%;
+}
+
+.defaultSpinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-top-color: var(--theme-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

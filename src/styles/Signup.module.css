@@ -1,0 +1,4 @@
+.signupButton {
+  background-color: var(--theme-color);
+  color: var(--light-font-color);
+}

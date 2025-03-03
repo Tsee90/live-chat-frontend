@@ -9,6 +9,10 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { token } = useAuth();
+  const [miles, setMiles] = useState(5);
+  const [radiusKm, setRadiusKm] = useState(5 * 1.609);
+  const [loading, setLoading] = useState(false);
+  const [sort, setSort] = useState('userCount');
   useEffect(() => {
     if (!token) {
       navigate('/login');
@@ -17,11 +21,12 @@ const Home = () => {
 
     const fetchNearbyRooms = async () => {
       try {
+        setLoading(true);
         navigator.geolocation.getCurrentPosition(async (position) => {
           const { latitude, longitude } = position.coords;
 
           const { data } = await API.get('/rooms', {
-            params: { latitude, longitude, radiusKm: 5 },
+            params: { latitude, longitude, radiusKm, sort },
             headers: { Authorization: `Bearer ${token}` },
           });
 
@@ -32,11 +37,13 @@ const Home = () => {
           'Failed to fetch nearby rooms:',
           err.response?.data?.error
         );
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchNearbyRooms();
-  }, [navigate, token]);
+  }, [navigate, token, radiusKm, sort]);
 
   const handleCreateRoom = async (formData) => {
     setShowModal(false);
@@ -61,19 +68,57 @@ const Home = () => {
     }
   };
 
+  const handleMileChange = (event) => {
+    if (event.target.value === 'all') {
+      setRadiusKm('all');
+      setMiles('all');
+    } else {
+      setMiles(Number(event.target.value));
+      setRadiusKm(Number(event.target.value) * 1.609);
+    }
+  };
+
+  const handleSortChange = (event) => {
+    setSort(event.target.value);
+  };
+
   return (
     <div>
-      <h2>Nearby Rooms</h2>
+      <div>
+        Chizmiz within{' '}
+        <select value={miles} onChange={handleMileChange}>
+          <option value={1}>1</option>
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={50}>50</option>
+          <option value="all">All</option>
+        </select>{' '}
+        miles{' '}
+        <select
+          name="sortBy"
+          id="sortBy"
+          value={sort}
+          onChange={handleSortChange}
+        >
+          <option value="userCount">Popular</option>
+          <option value="newest">Newest</option>
+        </select>
+      </div>
       <button onClick={() => setShowModal(true)}>+ Create Room</button>
 
-      <ul>
-        {rooms.map((room) => (
-          <li key={room.id}>
-            {room.name}
-            <button onClick={() => handleJoinRoom(room.id)}>Join</button>
-          </li>
-        ))}
-      </ul>
+      {loading ? (
+        <div className={`defaultSpinner`}></div>
+      ) : (
+        <ul>
+          {rooms.map((room) => (
+            <li key={room.id}>
+              {room.name}
+              <button onClick={() => handleJoinRoom(room.id)}>Join</button>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {showModal && (
         <div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import API from '../api';
 import { useNavigate } from 'react-router-dom';
+import styles from '../styles/Signup.module.css';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function Signup() {
     password: '',
     confirmPassword: '',
   });
-
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({}); // Handles both client & field-specific server errors
   const [globalServerError, setGlobalServerError] = useState(null); // For general server errors
 
@@ -49,6 +50,7 @@ export default function Signup() {
     }
 
     try {
+      setLoading(true);
       const res = await API.post('/users/signup', formData);
       if (res) {
         console.log(res.data);
@@ -77,66 +79,78 @@ export default function Signup() {
         console.log(error);
         setGlobalServerError('An unexpected error occurred');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
-
-      {globalServerError && <p style={{ color: 'red' }}>{globalServerError}</p>}
-
-      <div>
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          placeholder="Enter username"
-        />
-        {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>}
-      </div>
-
-      <div>
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Enter email"
-        />
-        {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
-      </div>
-
-      <div>
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Enter password"
-        />
-        {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
-      </div>
-
-      <div>
-        <label>Confirm Password</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          placeholder="Confirm password"
-        />
-        {errors.confirmPassword && (
-          <p style={{ color: 'red' }}>{errors.confirmPassword}</p>
+    <div
+      className={`defaultMainContainer alignItemsCenter justifyContentCenter gap10px`}
+    >
+      <form
+        onSubmit={handleSubmit}
+        className={`defaultForm displayFlexColumn justifyContentSpaceAround alignItemsCenter gap10px`}
+      >
+        <div className={`fontWeightBold fontSize30px`}>Create Account</div>
+        <div
+          className={`displayFlexColumn alignItemsCenter defaultInputsContainer`}
+        >
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            placeholder="Username"
+            className={`defaultInput`}
+          />
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className={`defaultInput`}
+          />
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className={`defaultInput`}
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            placeholder="Confirm Password"
+            className={`defaultInput`}
+          />
+        </div>
+        {loading ? (
+          <div className={`defaultSpinner`}></div>
+        ) : (
+          <button
+            type="submit"
+            className={`defaultButton fontWeightBold ${styles.signupButton}`}
+          >
+            Sign Up
+          </button>
         )}
-      </div>
+        {Object.keys(errors).length > 0
+          ? Object.values(errors).map((error, index) => (
+              <p key={index} className={`defaultErrorText`}>
+                {error}
+              </p>
+            ))
+          : null}
 
-      <button type="submit">Sign Up</button>
-    </form>
+        {globalServerError ? (
+          <p className={`defaultErrorText`}>{globalServerError}</p>
+        ) : null}
+      </form>
+    </div>
   );
 }

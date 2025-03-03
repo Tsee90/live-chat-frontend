@@ -9,7 +9,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
-
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -18,12 +18,15 @@ const Login = () => {
     e.preventDefault();
     setError('');
     try {
+      setLoading(true);
       const res = await API.post('/users/login', formData);
       login(res.data.token);
       navigate('/');
     } catch (error) {
       console.log(error);
       setError('Invalid credentials');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,7 +38,7 @@ const Login = () => {
         onSubmit={handleSubmit}
         className={`displayFlexColumn justifyContentSpaceAround alignItemsCenter defaultForm ${styles.form}`}
       >
-        <div className={`fontWeightBold ${styles.title}`}>Log In</div>
+        <div className={`fontWeightBold ${styles.title}`}>Welcome Back!</div>
         <div
           className={`displayFlexColumn alignItemsCenter defaultInputsContainer`}
         >
@@ -58,10 +61,17 @@ const Login = () => {
             className={`defaultInput`}
           />
         </div>
-        {error && <p className="text-red-500">{error}</p>}
-        <button type="submit" className={`defaultButton ${styles.loginButton}`}>
-          Login
-        </button>
+        {error && <p className={`defaultErrorText`}>{error}</p>}
+        {loading ? (
+          <div className={`defaultSpinner`}></div>
+        ) : (
+          <button
+            type="submit"
+            className={`defaultButton ${styles.loginButton}`}
+          >
+            Log In
+          </button>
+        )}{' '}
         <div className={`${styles.noAccount}`}>
           Don't have an account?{' '}
           <a
