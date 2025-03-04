@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import styles from '../styles/CreateRoomForm.module.css';
 
 const CreateRoomForm = ({ onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -42,35 +43,46 @@ const CreateRoomForm = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <div>
-      <h2>Create Room</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Room Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+    <form
+      onSubmit={handleSubmit}
+      className={`defaultForm displayFlexColumn alignItemsCenter justifyContentSpaceAround ${styles.createRoomForm}`}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className={`fontWeightBold fontSize30px`}>New Room</div>
 
-        {locationError && <p>{locationError}</p>}
-        <div>
-          <button type="submit">Create Room</button>
-          <button type="button" onClick={onClose}>
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+      <input
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        placeholder="enter name"
+        required
+        className={`defaultInput`}
+      />
+
+      {locationError && <p>{locationError}</p>}
+      <div className={`displayFlexRow justifyContentSpaceAround width100`}>
+        <button
+          type="submit"
+          className={`defaultButton ${styles.createButton}`}
+        >
+          Create
+        </button>
+        <button
+          type="button"
+          onClick={onClose}
+          className={`defaultButton ${styles.cancelButton}`}
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
   );
 };
 
 CreateRoomForm.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired, // 🔥 Add onSubmit prop validation
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default CreateRoomForm;

@@ -89,7 +89,6 @@ const Home = () => {
     const past = new Date(utc);
     const now = new Date();
     const diffMs = now - past;
-    console.log(now, past, utc, diffMs);
 
     const hours = Math.floor(diffMs / (1000 * 60 * 60));
     const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
@@ -106,8 +105,30 @@ const Home = () => {
     return `${seconds} seconds ago`;
   };
 
+  const roomList = (
+    <ul className={`displayFlexColumn ${styles.roomList}`}>
+      {rooms.map((room) => (
+        <li
+          key={room.id}
+          className={`${styles.roomListItem}`}
+          onClick={() => handleJoinRoom(room.id)}
+        >
+          <div className={`displayFlexColumn ${styles.itemTitle}`}>
+            <div className={`fontWeightBold`}>{room.name}</div>
+            <div className={`displayFlexRow gap10px ${styles.itemFooter}`}>
+              <div>
+                Created by {room.creator_username} {timePast(room.startsAt)}
+              </div>
+              <div>Connected: {room.user_count}</div>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+
   return (
-    <div className={`defaultMainContainer`}>
+    <div className={`defaultMainContainer ${styles.mainContainer}`}>
       <div
         className={`displayFlexColumn alignItemsCenter boxShadow ${styles.homeContainer}`}
       >
@@ -159,39 +180,29 @@ const Home = () => {
         </div>
         {loading ? (
           <div className={`defaultSpinner`}></div>
+        ) : rooms.length > 0 ? (
+          roomList
         ) : (
-          <ul className={`displayFlexColumn ${styles.roomList}`}>
-            {rooms.map((room) => (
-              <li
-                key={room.id}
-                className={`${styles.roomListItem}`}
-                onClick={() => handleJoinRoom(room.id)}
-              >
-                <div className={`displayFlexColumn ${styles.itemTitle}`}>
-                  <div className={`fontWeightBold`}>{room.name}</div>
-                  <div className={`displayFlexRow`}>
-                    <div>Connected: {room.user_count}</div>
-                    <div>
-                      Created by {room.creator_username}{' '}
-                      {timePast(room.startsAt)}
-                    </div>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-        {showModal && (
-          <div>
-            <div>
-              <CreateRoomForm
-                onClose={() => setShowModal(false)}
-                onSubmit={handleCreateRoom}
-              />
-            </div>
+          <div className={`${styles.nothing}`}>
+            nothing here...try{' '}
+            <span onClick={() => setShowModal(true)} className={`defaultLink`}>
+              creating
+            </span>{' '}
+            a room!
           </div>
         )}
-      </div>
+      </div>{' '}
+      {showModal && (
+        <div
+          className={`${styles.overlay}`}
+          onClick={() => setShowModal(false)}
+        >
+          <CreateRoomForm
+            onClose={() => setShowModal(false)}
+            onSubmit={handleCreateRoom}
+          />
+        </div>
+      )}
     </div>
   );
 };

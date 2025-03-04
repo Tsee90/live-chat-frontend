@@ -122,12 +122,25 @@ a {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+.width100 {
+  width: 100%;
+}
+
 /* Default methods */
 
 .defaultButton {
   border-radius: 5px;
   padding: 5px 10px;
   transition: filter 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.defaultLink {
+  color: var(--theme-color);
+}
+
+.defaultLink:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .defaultForm {

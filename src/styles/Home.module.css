@@ -45,3 +45,24 @@
     display: none;
   }
 }
+
+.nothing {
+  padding: 100px 0px;
+  color: rgb(163, 163, 163);
+}
+
+.itemFooter {
+  font-style: italic;
+  font-size: 13px;
+}
+
+.mainContainer {
+  position: relative;
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+}
