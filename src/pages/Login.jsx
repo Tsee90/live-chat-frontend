@@ -8,8 +8,13 @@ const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, token } = useAuth();
   const [loading, setLoading] = useState(false);
+
+  if (token) {
+    navigate('/');
+  }
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

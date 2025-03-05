@@ -10,7 +10,8 @@
   font-size: 32px;
 }
 
-.userLoggedIn {
+.title:hover {
+  cursor: pointer;
 }
 
 .logOutButton {
@@ -32,9 +33,6 @@
 
 .offline {
   background-color: red;
-}
-
-.userLoggedOut {
 }
 
 .signup {

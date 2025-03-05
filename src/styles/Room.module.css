@@ -1,5 +1,27 @@
 .messageContainer {
   overflow: auto;
+  position: relative;
+}
+
+.jumpToBottomButton {
+  position: sticky;
+  bottom: 10px;
+  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.jumpToBottomButton:hover {
+  background-color: black;
 }
 
 .messageWrapper {

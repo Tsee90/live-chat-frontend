@@ -49,7 +49,14 @@ const Nav = () => {
     <nav
       className={`displayFlexRow alignItemsCenter justifyContentSpaceBetween ${styles.nav} `}
     >
-      <div className={`fontWeightBold ${styles.title}`}>Chizmiz</div>
+      <div
+        className={`fontWeightBold ${styles.title}`}
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        Chizmiz
+      </div>
       {user ? userLoggedIn : userLoggedOut}
     </nav>
   );

@@ -20,6 +20,7 @@ const Room = () => {
   const listRef = useRef(null);
   const listWrapperRef = useRef(null);
   const [listOverflow, setListOverflow] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(true);
 
   useEffect(() => {
     if (!token || !socket) return;
@@ -80,11 +81,16 @@ const Room = () => {
   }, [roomId, token, socket]);
 
   useEffect(() => {
-    if (messageContainerRef.current) {
+    if (messageContainerRef.current && isAtBottom) {
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
+  const jumpToBottom = () => {
+    messageContainerRef.current.scrollTop =
+      messageContainerRef.current.scrollHeight;
+  };
 
   useLayoutEffect(() => {
     if (listRef.current && listWrapperRef.current) {
@@ -95,6 +101,14 @@ const Room = () => {
       }
     }
   }, [users]);
+
+  const handleScroll = () => {
+    const container = messageContainerRef.current;
+    const isUserAtBottom =
+      container.scrollHeight - container.scrollTop <=
+      container.clientHeight + 10;
+    setIsAtBottom(isUserAtBottom);
+  };
 
   const handleSendMessage = async () => {
     const createdAt = new Date().toISOString();
@@ -109,10 +123,6 @@ const Room = () => {
   };
 
   const handleLeaveRoom = async () => {
-    const confirmLeave = window.confirm(
-      'Are you sure you want to leave the room?'
-    );
-    if (!confirmLeave) return;
     navigate('/');
   };
 
@@ -155,17 +165,26 @@ const Room = () => {
     <div
       ref={messageContainerRef}
       className={`flexGrow1 ${styles.messageContainer}`}
+      onScroll={handleScroll}
     >
       {messages.map((msg) => (
         <div key={msg.id} className={`${styles.messageItem}`}>
           <strong>{msg.sender.username}:</strong> {msg.content}
         </div>
       ))}
+      {!isAtBottom ? (
+        <button
+          className={`${styles.jumpToBottomButton}`}
+          onClick={jumpToBottom}
+        >
+          Jump To Bottom
+        </button>
+      ) : null}
     </div>
   );
 
   const messageInput = (
-    <div className={`displayFlexRow flexGrow1 ${styles.inputContainer}`}>
+    <div className={`displayFlexRow  ${styles.inputContainer}`}>
       <input
         type="text"
         value={newMessage}
@@ -179,6 +198,7 @@ const Room = () => {
           }
         }}
         className={`flexGrow1 ${styles.input}`}
+        maxLength={2000}
       />
       <button onClick={handleSendMessage} className={`${styles.sendButton}`}>
         Send

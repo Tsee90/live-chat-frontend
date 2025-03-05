@@ -2,9 +2,15 @@ import { useState } from 'react';
 import API from '../api';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Signup.module.css';
+import { useAuth } from '../context/AuthContext';
 
 export default function Signup() {
+  const { token } = useAuth();
+
   const navigate = useNavigate();
+  if (token) {
+    navigate('/');
+  }
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -12,8 +18,8 @@ export default function Signup() {
     confirmPassword: '',
   });
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({}); // Handles both client & field-specific server errors
-  const [globalServerError, setGlobalServerError] = useState(null); // For general server errors
+  const [errors, setErrors] = useState({});
+  const [globalServerError, setGlobalServerError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,10 +35,20 @@ export default function Signup() {
       /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!formData.username.trim()) newErrors.username = 'Username is required';
+    if (formData.username.trim().length > 15)
+      newErrors.username = 'Username cannot exceed 15 characters';
+    if (formData.username.trim().length < 3)
+      newErrors.username = 'Username must be at least 3 characters';
     if (!emailRegex.test(formData.email)) newErrors.email = 'Invalid email';
+    if (formData.email.trim().length > 254)
+      newErrors.email = 'Email exceeds character limit';
+    if (formData.email.trim().length > 6)
+      newErrors.email = 'Email must be at least 6 characters';
     if (!passwordRegex.test(formData.password))
       newErrors.password =
         'Password must be at least 8 characters, include one uppercase letter, one number, and one special character';
+    if (formData.password.trim().length > 128)
+      newErrors.password = 'Password exceeds character limit';
     if (formData.password !== formData.confirmPassword)
       newErrors.confirmPassword = 'Passwords do not match';
 
