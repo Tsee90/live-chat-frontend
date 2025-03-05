@@ -4,6 +4,7 @@
   font-family: var(--theme-font-family);
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  height: 60px;
 }
 .title {
   font-size: 32px;

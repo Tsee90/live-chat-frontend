@@ -1,0 +1,73 @@
+.messageContainer {
+  overflow: auto;
+}
+
+.messageWrapper {
+  height: calc(100vh - 60px);
+  min-width: 50%;
+  align-self: center;
+  padding: 5px 10px;
+}
+
+@media (max-width: 600px) {
+  .messageWrapper {
+    width: 100vw;
+  }
+}
+@media (min-width: 601px) {
+  .messageWrapper {
+    min-width: 600px;
+    width: 50%;
+  }
+}
+
+.messageItem {
+  word-wrap: break-word;
+}
+
+.usersTitle {
+  min-width: 75px;
+}
+
+.usersListWrapper {
+  overflow: hidden;
+}
+
+.overflowAnimate {
+  animation: scroll 10s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.headerContainer {
+  border-bottom: 1px solid black;
+}
+
+.input {
+  background-color: rgb(240, 240, 240);
+  border: none;
+  padding-left: 5px;
+  font-size: 15px;
+}
+
+.sendButton {
+  padding: 0px 5px;
+  background-color: var(--theme-color);
+  color: white;
+  transition: 0.5s;
+}
+
+.sendButton:hover {
+  filter: brightness(1.2);
+}
+
+.leaveButton:hover {
+  filter: brightness(0.8);
+}

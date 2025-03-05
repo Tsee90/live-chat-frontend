@@ -15,6 +15,10 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
+        if (decoded.exp * 1000 < Date.now()) {
+          logout();
+          return;
+        }
         setUser(decoded);
         const newSocket = io(
           import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',

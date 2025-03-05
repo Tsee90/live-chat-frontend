@@ -115,9 +115,10 @@ const Home = () => {
         >
           <div className={`displayFlexColumn ${styles.itemTitle}`}>
             <div className={`fontWeightBold`}>{room.name}</div>
-            <div className={`displayFlexRow gap10px ${styles.itemFooter}`}>
+            <div className={`displayFlexColumn ${styles.itemFooter}`}>
               <div>
-                Created by {room.creator_username} {timePast(room.startsAt)}
+                Created by <strong>{room.creator_username}</strong>{' '}
+                {timePast(room.startsAt)}
               </div>
               <div>Connected: {room.user_count}</div>
             </div>

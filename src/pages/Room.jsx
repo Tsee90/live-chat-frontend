@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import API from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import styles from '../styles/Room.module.css';
 
 const Room = () => {
   const navigate = useNavigate();
@@ -15,6 +16,10 @@ const Room = () => {
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const messageContainerRef = useRef(null);
+  const listRef = useRef(null);
+  const listWrapperRef = useRef(null);
+  const [listOverflow, setListOverflow] = useState(false);
 
   useEffect(() => {
     if (!token || !socket) return;
@@ -74,6 +79,23 @@ const Room = () => {
     };
   }, [roomId, token, socket]);
 
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  useLayoutEffect(() => {
+    if (listRef.current && listWrapperRef.current) {
+      if (listRef.current.scrollWidth > listWrapperRef.current.clientWidth) {
+        setListOverflow(true);
+      } else {
+        setListOverflow(false);
+      }
+    }
+  }, [users]);
+
   const handleSendMessage = async () => {
     const createdAt = new Date().toISOString();
     if (!newMessage.trim()) return;
@@ -98,46 +120,95 @@ const Room = () => {
   if (loading) return <p>Joining room...</p>;
   if (!active) return <p>This room is no longer active.</p>;
 
-  return (
-    <div>
-      <h2>Room: {roomName}</h2>
-
-      <div>
-        <h3>Users in Room:</h3>
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>{user.username}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h3>Messages:</h3>
-        {messages.map((msg) => (
-          <div key={msg.id}>
-            <strong>{msg.sender.username}:</strong> {msg.content}
-          </div>
+  const usersList = () => {
+    return (
+      <ul
+        className={`displayFlexRow gap10px ${styles.usersList} ${
+          listOverflow ? styles.overflowAnimate : ''
+        }`}
+      >
+        {users.map((user) => (
+          <li key={user.id} className={`displayFlexRow`}>
+            {user.username}
+          </li>
         ))}
-      </div>
+      </ul>
+    );
+  };
 
-      <div>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => {
-            if (e.target.value) setNewMessage(e.target.value);
-          }}
-          placeholder="Type your message..."
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && newMessage.trim()) {
-              handleSendMessage();
-            }
-          }}
-        />
-        <button onClick={handleSendMessage}>Send</button>
+  const usersContainer = (
+    <div className={`displayFlexRow gap10px ${styles.usersContainer}`}>
+      <div className={`${styles.usersTitle}`}>Users ({users.length}):</div>
+      <div
+        ref={listWrapperRef}
+        className={`flexGrow1 ${styles.usersListWrapper}`}
+      >
+        <div ref={listRef} className={`displayFlexRow `}>
+          {usersList()}
+          {listOverflow ? usersList() : ''}
+        </div>
       </div>
-      <div>
-        <button onClick={handleLeaveRoom}>Leave Room</button>
+    </div>
+  );
+
+  const messageContainer = (
+    <div
+      ref={messageContainerRef}
+      className={`flexGrow1 ${styles.messageContainer}`}
+    >
+      {messages.map((msg) => (
+        <div key={msg.id} className={`${styles.messageItem}`}>
+          <strong>{msg.sender.username}:</strong> {msg.content}
+        </div>
+      ))}
+    </div>
+  );
+
+  const messageInput = (
+    <div className={`displayFlexRow flexGrow1 ${styles.inputContainer}`}>
+      <input
+        type="text"
+        value={newMessage}
+        onChange={(e) => {
+          setNewMessage(e.target.value);
+        }}
+        placeholder="Type your message..."
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && newMessage.trim()) {
+            handleSendMessage();
+          }
+        }}
+        className={`flexGrow1 ${styles.input}`}
+      />
+      <button onClick={handleSendMessage} className={`${styles.sendButton}`}>
+        Send
+      </button>
+    </div>
+  );
+
+  const titleContainer = (
+    <div
+      className={`displayFlexRow justifyContentSpaceBetween alignItemsCenter ${styles.titleContainer}`}
+    >
+      <div className={`fontWeightBold fontSize30px`}>{roomName}</div>
+      <button
+        onClick={handleLeaveRoom}
+        className={`defaultButton ${styles.leaveButton}`}
+      >
+        Leave
+      </button>
+    </div>
+  );
+
+  return (
+    <div className={`defaultMainContainer`}>
+      <div className={`displayFlexColumn ${styles.messageWrapper}`}>
+        <div className={`${styles.headerContainer}`}>
+          {titleContainer}
+          {usersContainer}
+        </div>
+        {messageContainer}
+        {messageInput}
       </div>
     </div>
   );
