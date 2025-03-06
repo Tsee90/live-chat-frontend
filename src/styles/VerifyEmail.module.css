@@ -1,0 +1,24 @@
+.verifyButton {
+  width: 150px;
+  color: white;
+  background-color: var(--theme-color);
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.verifyButton:hover {
+  filter: brightness(1.2);
+}
+
+.resend {
+  font-size: 15px;
+}
+
+.resent {
+  font-size: 15px;
+  color: rgb(7, 182, 7);
+}
+
+.verifiedTitle {
+  margin-top: 50px;
+}

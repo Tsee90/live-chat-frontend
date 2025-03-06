@@ -92,6 +92,18 @@ a {
   justify-content: center;
 }
 
+.textAlignCenter {
+  text-align: center;
+}
+
+.alignSelfCenter {
+  align-self: center;
+}
+
+.justifySelfCenter {
+  justify-self: center;
+}
+
 /* Single methods */
 
 .borderRadius50 {
@@ -157,6 +169,11 @@ a {
 .defaultInputsContainer {
   gap: 10px;
   width: 100%;
+}
+
+.defaultSubtext {
+  font-size: 15px;
+  color: rgb(119, 119, 119);
 }
 
 .defaultInput {

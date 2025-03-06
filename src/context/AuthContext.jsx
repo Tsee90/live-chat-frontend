@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }) => {
           });
         });
         newSocket.on('connect_error', () => {
-          console.log('connection error');
           setDisconnected((prev) => {
             if (!prev) return true;
             return prev;

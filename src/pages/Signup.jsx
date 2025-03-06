@@ -42,7 +42,7 @@ export default function Signup() {
     if (!emailRegex.test(formData.email)) newErrors.email = 'Invalid email';
     if (formData.email.trim().length > 254)
       newErrors.email = 'Email exceeds character limit';
-    if (formData.email.trim().length > 6)
+    if (formData.email.trim().length < 6)
       newErrors.email = 'Email must be at least 6 characters';
     if (!passwordRegex.test(formData.password))
       newErrors.password =
@@ -69,7 +69,6 @@ export default function Signup() {
       setLoading(true);
       const res = await API.post('/users/signup', formData);
       if (res) {
-        console.log(res.data);
         navigate(`/verify-email?email=${encodeURIComponent(res.data.email)}`);
       }
       setFormData({
@@ -92,7 +91,6 @@ export default function Signup() {
       } else if (serverData?.error) {
         setGlobalServerError(serverData.error);
       } else {
-        console.log(error);
         setGlobalServerError('An unexpected error occurred');
       }
     } finally {
@@ -155,6 +153,12 @@ export default function Signup() {
             Sign Up
           </button>
         )}
+        <div className={`defaultSubtext`}>
+          Already have an account?{' '}
+          <a href="/login" className={`defaultLink`}>
+            Log in
+          </a>
+        </div>
         {Object.keys(errors).length > 0
           ? Object.values(errors).map((error, index) => (
               <p key={index} className={`defaultErrorText`}>

@@ -79,6 +79,9 @@
   font-size: 15px;
 }
 
+.input:focus {
+  outline-color: var(--theme-color);
+}
 .sendButton {
   padding: 0px 5px;
   background-color: var(--theme-color);

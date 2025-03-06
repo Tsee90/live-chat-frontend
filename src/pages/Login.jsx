@@ -27,9 +27,8 @@ const Login = () => {
       const res = await API.post('/users/login', formData);
       login(res.data.token);
       navigate('/');
-    } catch (error) {
-      console.log(error);
-      setError('Invalid credentials');
+    } catch {
+      setError(`Invalid credentials`);
     } finally {
       setLoading(false);
     }

@@ -34,7 +34,7 @@ const Nav = () => {
       className={`displayFlexRow alignItemsCenter gap10px ${styles.userLoggedOut}`}
     >
       <a className={`${styles.login}`} href="/login">
-        Login
+        Log in
       </a>
       <a
         className={`fontWeightBold defaultButton ${styles.signup}`}

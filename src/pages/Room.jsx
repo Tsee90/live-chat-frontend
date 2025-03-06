@@ -62,7 +62,6 @@ const Room = () => {
     };
 
     const handleReconnect = () => {
-      console.log('reconnecting...');
       fetchRoom();
     };
 
