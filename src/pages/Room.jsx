@@ -21,6 +21,7 @@ const Room = () => {
   const listWrapperRef = useRef(null);
   const [listOverflow, setListOverflow] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (!token || !socket) return;
@@ -125,8 +126,21 @@ const Room = () => {
     navigate('/');
   };
 
+  const handleFocus = () => {
+    setTimeout(() => {
+      inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+  };
+
   if (error) return <p>{error}</p>;
-  if (loading) return <p>Joining room...</p>;
+  if (loading)
+    return (
+      <div
+        className={`defaultMainContainer alignItemsCenter justifyContentCenter`}
+      >
+        <div className={`defaultSpinner`}></div>
+      </div>
+    );
   if (!active) return <p>This room is no longer active.</p>;
 
   const usersList = () => {
@@ -198,6 +212,8 @@ const Room = () => {
         }}
         className={`flexGrow1 ${styles.input}`}
         maxLength={2000}
+        ref={inputRef}
+        onFocus={handleFocus}
       />
       <button onClick={handleSendMessage} className={`${styles.sendButton}`}>
         Send

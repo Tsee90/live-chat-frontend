@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [disconnected, setDisconnected] = useState(true);
   const [forcedLogout, setForcedLogout] = useState(false);
+  const [location, setLocation] = useState(null);
 
   useEffect(() => {
     if (token) {
@@ -41,6 +42,23 @@ export const AuthProvider = ({ children }) => {
           logout();
           setForcedLogout(true);
         });
+
+        const getPosition = async () => {
+          navigator.geolocation.watchPosition(
+            (position) => {
+              if (position.coords) {
+                setLocation(position.coords);
+              }
+            },
+            (error) => {
+              setLocation(null);
+              console.error('Error getting location:', error.message);
+            }
+          );
+        };
+
+        getPosition();
+
         return () => {
           newSocket.disconnect();
           newSocket.removeAllListeners();
@@ -77,7 +95,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, socket, disconnected, forcedLogout, login, logout }}
+      value={{
+        user,
+        token,
+        socket,
+        disconnected,
+        forcedLogout,
+        location,
+        login,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

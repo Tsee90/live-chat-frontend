@@ -4,35 +4,36 @@ import API from '../api';
 import CreateRoomForm from '../components/CreateRoomForm';
 import { useAuth } from '../context/AuthContext';
 import styles from '../styles/Home.module.css';
+import refreshIcon from '../assets/refresh.svg';
 
 const Home = () => {
   const [rooms, setRooms] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { token } = useAuth();
+  const { token, location } = useAuth();
   const [miles, setMiles] = useState(5);
   const [radiusKm, setRadiusKm] = useState(5 * 1.609);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [sort, setSort] = useState('userCount');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [creating, setCreating] = useState(false);
+
   useEffect(() => {
-    if (!token) {
+    if (!token || !location) {
       navigate('/login');
       return;
     }
 
     const fetchNearbyRooms = async () => {
       try {
-        setLoading(true);
-        navigator.geolocation.getCurrentPosition(async (position) => {
-          const { latitude, longitude } = position.coords;
+        const { latitude, longitude } = location;
 
-          const { data } = await API.get('/rooms', {
-            params: { latitude, longitude, radiusKm, sort },
-            headers: { Authorization: `Bearer ${token}` },
-          });
-
-          setRooms(data);
+        const { data } = await API.get('/rooms', {
+          params: { latitude, longitude, radiusKm, sort },
+          headers: { Authorization: `Bearer ${token}` },
         });
+
+        setRooms(data);
       } catch (err) {
         console.error(
           'Failed to fetch nearby rooms:',
@@ -40,23 +41,33 @@ const Home = () => {
         );
       } finally {
         setLoading(false);
+        setIsRefreshing(false);
       }
     };
 
     fetchNearbyRooms();
-  }, [navigate, token, radiusKm, sort]);
+  }, [navigate, token, radiusKm, sort, isRefreshing]);
 
   const handleCreateRoom = async (formData) => {
-    setShowModal(false);
-    const startsAt = new Date();
-    const expiresAt = new Date(new Date().setHours(new Date().getHours() + 24));
-    const { name, location } = formData;
-    const { data } = await API.post(
-      '/rooms',
-      { name, startsAt, expiresAt, location },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    navigate(`/room/${data.id}`);
+    setCreating(true);
+    try {
+      const startsAt = new Date();
+      const expiresAt = new Date(
+        new Date().setHours(new Date().getHours() + 24)
+      );
+      const { name } = formData;
+      const { data } = await API.post(
+        '/rooms',
+        { name, startsAt, expiresAt, location },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      navigate(`/room/${data.id}`);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setShowModal(false);
+      setCreating(false);
+    }
   };
 
   const handleJoinRoom = async (roomId) => {
@@ -72,6 +83,7 @@ const Home = () => {
   };
 
   const handleMileChange = (event) => {
+    setLoading(true);
     if (event.target.value === 'all') {
       setRadiusKm('all');
       setMiles('all');
@@ -82,7 +94,13 @@ const Home = () => {
   };
 
   const handleSortChange = (event) => {
+    setLoading(true);
     setSort(event.target.value);
+  };
+
+  const handleRefresh = () => {
+    setLoading(true);
+    setIsRefreshing(true);
   };
 
   const timePast = (utc) => {
@@ -171,12 +189,20 @@ const Home = () => {
                 <option value="newest">Newest</option>
               </select>
             </div>
+            <div>|</div>
+            <button
+              onClick={() => setShowModal(true)}
+              className={`defaultButton fontWeightBold ${styles.createButton}`}
+            >
+              +
+            </button>
           </div>
-          <button
-            onClick={() => setShowModal(true)}
-            className={`defaultButton fontWeightBold ${styles.createButton}`}
-          >
-            + Create
+          <button onClick={handleRefresh} className={`${styles.refreshButton}`}>
+            <img
+              src={refreshIcon}
+              alt="refresh"
+              className={`${styles.refreshIcon}`}
+            />
           </button>
         </div>
         {loading ? (
@@ -201,6 +227,7 @@ const Home = () => {
           <CreateRoomForm
             onClose={() => setShowModal(false)}
             onSubmit={handleCreateRoom}
+            creating={creating}
           />
         </div>
       )}

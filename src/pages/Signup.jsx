@@ -106,7 +106,7 @@ export default function Signup() {
         onSubmit={handleSubmit}
         className={`defaultForm displayFlexColumn justifyContentSpaceAround alignItemsCenter gap10px`}
       >
-        <div className={`fontWeightBold fontSize30px`}>Create Account</div>
+        <div className={`fontWeightBold fontSize30px`}>New Account</div>
         <div
           className={`displayFlexColumn alignItemsCenter defaultInputsContainer`}
         >

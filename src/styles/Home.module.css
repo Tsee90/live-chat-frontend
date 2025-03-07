@@ -16,6 +16,12 @@
 .createButton {
   background-color: rgb(58, 192, 6);
   color: white;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
 }
 
 .createButton:hover {
@@ -66,4 +72,22 @@
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
+}
+
+.refreshButton {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: gray;
+}
+
+.refreshButton:hover {
+  filter: brightness(1.2);
+}
+
+.refreshIcon {
+  height: 25px;
 }

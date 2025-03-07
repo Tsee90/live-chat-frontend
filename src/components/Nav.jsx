@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Nav.module.css';
 
 const Nav = () => {
-  const { user, logout, disconnected } = useAuth();
+  const { user, logout, disconnected, location } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -15,9 +15,14 @@ const Nav = () => {
       className={` displayFlexRow alignItemsCenter gap10px ${styles.userLoggedIn}`}
     >
       <div>{user?.username}</div>
+
       <div
         className={`borderRadius50 ${styles.statusIndicator} ${
-          disconnected ? styles.offline : styles.online
+          disconnected
+            ? styles.offline
+            : !location
+            ? styles.noLocation
+            : styles.online
         }`}
       ></div>
 

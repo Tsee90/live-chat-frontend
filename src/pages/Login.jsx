@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
 import { useAuth } from '../context/AuthContext';
@@ -11,9 +11,11 @@ const Login = () => {
   const { login, token } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  if (token) {
-    navigate('/');
-  }
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+  }, [token, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,7 +44,7 @@ const Login = () => {
         onSubmit={handleSubmit}
         className={`displayFlexColumn justifyContentSpaceAround alignItemsCenter defaultForm ${styles.form}`}
       >
-        <div className={`fontWeightBold ${styles.title}`}>Welcome Back!</div>
+        <div className={`fontWeightBold ${styles.title}`}>Welcome!</div>
         <div
           className={`displayFlexColumn alignItemsCenter defaultInputsContainer`}
         >
@@ -76,8 +78,10 @@ const Login = () => {
             Log In
           </button>
         )}{' '}
-        <div className={`${styles.noAccount}`}>
-          Don't have an account?{' '}
+        <div
+          className={`displayFlexColumn alignItemsCenter ${styles.noAccount}`}
+        >
+          <div>Don't have an account? </div>
           <a
             href="/signup"
             className={`themeColor fontWeightBold ${styles.signupLink}`}

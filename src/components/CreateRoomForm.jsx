@@ -1,30 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from '../styles/CreateRoomForm.module.css';
 
-const CreateRoomForm = ({ onClose, onSubmit }) => {
+const CreateRoomForm = ({ onClose, onSubmit, creating }) => {
   const [formData, setFormData] = useState({
     name: '',
   });
-  const [location, setLocation] = useState(null);
-  const [locationError, setLocationError] = useState('');
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          setLocationError('');
-        },
-        () => setLocationError('Location access denied')
-      );
-    } else {
-      setLocationError('Geolocation not supported');
-    }
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,12 +15,8 @@ const CreateRoomForm = ({ onClose, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!location) {
-      setLocationError('Location is required');
-      return;
-    }
 
-    onSubmit({ ...formData, location });
+    onSubmit({ ...formData });
   };
 
   return (
@@ -60,22 +37,25 @@ const CreateRoomForm = ({ onClose, onSubmit }) => {
         className={`defaultInput`}
       />
 
-      {locationError && <p>{locationError}</p>}
-      <div className={`displayFlexRow justifyContentSpaceAround width100`}>
-        <button
-          type="submit"
-          className={`defaultButton ${styles.createButton}`}
-        >
-          Create
-        </button>
-        <button
-          type="button"
-          onClick={onClose}
-          className={`defaultButton ${styles.cancelButton}`}
-        >
-          Cancel
-        </button>
-      </div>
+      {creating ? (
+        <div className={`defaultSpinner`}></div>
+      ) : (
+        <div className={`displayFlexRow justifyContentSpaceAround width100`}>
+          <button
+            type="submit"
+            className={`defaultButton ${styles.createButton}`}
+          >
+            Create
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className={`defaultButton ${styles.cancelButton}`}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
     </form>
   );
 };
@@ -83,6 +63,7 @@ const CreateRoomForm = ({ onClose, onSubmit }) => {
 CreateRoomForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  creating: PropTypes.bool.isRequired,
 };
 
 export default CreateRoomForm;
