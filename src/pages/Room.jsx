@@ -4,6 +4,7 @@ import API from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Room.module.css';
+import peopleIcon from '../assets/people.svg';
 
 const Room = () => {
   const navigate = useNavigate();
@@ -17,11 +18,10 @@ const Room = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const messageContainerRef = useRef(null);
-  const listRef = useRef(null);
-  const listWrapperRef = useRef(null);
-  const [listOverflow, setListOverflow] = useState(false);
+
   const [isAtBottom, setIsAtBottom] = useState(true);
   const inputRef = useRef(null);
+  const [userModal, setUserModal] = useState(false);
 
   useEffect(() => {
     if (!token || !socket) return;
@@ -92,16 +92,6 @@ const Room = () => {
       messageContainerRef.current.scrollHeight;
   };
 
-  useLayoutEffect(() => {
-    if (listRef.current && listWrapperRef.current) {
-      if (listRef.current.scrollWidth > listWrapperRef.current.clientWidth) {
-        setListOverflow(true);
-      } else {
-        setListOverflow(false);
-      }
-    }
-  }, [users]);
-
   const handleScroll = () => {
     const container = messageContainerRef.current;
     const isUserAtBottom =
@@ -132,6 +122,14 @@ const Room = () => {
     }, 300);
   };
 
+  const handleUserModal = () => {
+    setUserModal(true);
+  };
+
+  const handleCloseUserModal = () => {
+    setUserModal(false);
+  };
+
   if (error) return <p>{error}</p>;
   if (loading)
     return (
@@ -145,11 +143,7 @@ const Room = () => {
 
   const usersList = () => {
     return (
-      <ul
-        className={`displayFlexRow gap10px ${styles.usersList} ${
-          listOverflow ? styles.overflowAnimate : ''
-        }`}
-      >
+      <ul className={`displayFlexColumn flexGrow1 ${styles.usersList} `}>
         {users.map((user) => (
           <li key={user.id} className={`displayFlexRow`}>
             {user.username}
@@ -160,16 +154,25 @@ const Room = () => {
   };
 
   const usersContainer = (
-    <div className={`displayFlexRow gap10px ${styles.usersContainer}`}>
-      <div className={`${styles.usersTitle}`}>Users ({users.length}):</div>
+    <div
+      onClick={handleCloseUserModal}
+      className={`displayFlexColumn justifyContentCenter ${styles.overlay}`}
+    >
       <div
-        ref={listWrapperRef}
-        className={`flexGrow1 ${styles.usersListWrapper}`}
+        className={`displayFlexColumn justifyContentSpaceBetween alignSelfCenter flexGrow1 ${styles.usersContainer}`}
+        onClick={(e) => e.stopPropagation()}
       >
-        <div ref={listRef} className={`displayFlexRow `}>
+        <div className={`displayFlexColumn flexGrow1`}>
+          <div
+            className={`alignSelfCenter fontWeightBold ${styles.usersTitle}`}
+          >
+            Users ({users.length})
+          </div>
           {usersList()}
-          {listOverflow ? usersList() : ''}
         </div>
+        <button className={`defaultButton`} onClick={handleCloseUserModal}>
+          Close
+        </button>
       </div>
     </div>
   );
@@ -181,8 +184,12 @@ const Room = () => {
       onScroll={handleScroll}
     >
       {messages.map((msg) => (
-        <div key={msg.id} className={`${styles.messageItem}`}>
-          <strong>{msg.sender.username}:</strong> {msg.content}
+        <div key={msg.id} className={`displayFlexRow ${styles.messageItem}`}>
+          <div className={`fontWeightBold themeColor`}>
+            {msg.sender.username}:
+          </div>
+
+          {msg.content}
         </div>
       ))}
       {!isAtBottom ? (
@@ -225,7 +232,16 @@ const Room = () => {
     <div
       className={`displayFlexRow justifyContentSpaceBetween alignItemsCenter ${styles.titleContainer}`}
     >
-      <div className={`fontWeightBold fontSize30px`}>{roomName}</div>
+      <div className={`fontWeightBold fontSize30px ${styles.title}`}>
+        {roomName}
+      </div>
+      <div
+        className={`displayFlexRow gap10px justifyContentCenter alignItemsCenter ${styles.usersIcon}`}
+        onClick={handleUserModal}
+      >
+        <img src={peopleIcon} alt="people" />
+        <div>{users.length}</div>
+      </div>
       <button
         onClick={handleLeaveRoom}
         className={`defaultButton ${styles.leaveButton}`}
@@ -236,15 +252,13 @@ const Room = () => {
   );
 
   return (
-    <div className={`defaultMainContainer`}>
+    <div className={`defaultMainContainer positionRelative`}>
       <div className={`displayFlexColumn ${styles.messageWrapper}`}>
-        <div className={`${styles.headerContainer}`}>
-          {titleContainer}
-          {usersContainer}
-        </div>
+        <div className={`${styles.headerContainer}`}>{titleContainer}</div>
         {messageContainer}
         {messageInput}
       </div>
+      {userModal ? usersContainer : null}
     </div>
   );
 };

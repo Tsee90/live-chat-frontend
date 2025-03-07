@@ -138,6 +138,13 @@ a {
   width: 100%;
 }
 
+.borderRed {
+  border: 1px solid red;
+}
+
+.positionRelative {
+  position: relative;
+}
 /* Default methods */
 
 .defaultButton {

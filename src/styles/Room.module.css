@@ -45,27 +45,15 @@
 
 .messageItem {
   word-wrap: break-word;
+  gap: 5px;
 }
 
 .usersTitle {
   min-width: 75px;
 }
 
-.usersListWrapper {
-  overflow: hidden;
-}
-
-.overflowAnimate {
-  animation: scroll 10s linear infinite;
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+.usersList {
+  overflow: auto;
 }
 
 .headerContainer {
@@ -95,4 +83,35 @@
 
 .leaveButton:hover {
   filter: brightness(0.8);
+}
+
+.title {
+  max-width: 30%;
+  overflow: auto;
+  position: relative;
+  white-space: nowrap;
+}
+
+.title::-webkit-scrollbar {
+  display: none;
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+}
+
+.usersContainer {
+  width: 300px;
+  background-color: white;
+  max-width: 90%;
+  border-radius: 10px;
+  max-height: 300px;
+  padding: 5px 10px;
+}
+
+.usersIcon:hover {
+  filter: brightness(1.5);
 }
