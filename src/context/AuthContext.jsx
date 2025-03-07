@@ -53,7 +53,8 @@ export const AuthProvider = ({ children }) => {
             (error) => {
               setLocation(null);
               console.error('Error getting location:', error.message);
-            }
+            },
+            { enableHighAccuracy: true }
           );
         };
 
