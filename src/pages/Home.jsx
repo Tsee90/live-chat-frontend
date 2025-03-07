@@ -19,7 +19,7 @@ const Home = () => {
   const [creating, setCreating] = useState(false);
 
   useEffect(() => {
-    if (!token || !location) {
+    if (!token) {
       navigate('/login');
       return;
     }
