@@ -5,6 +5,7 @@ import CreateRoomForm from '../components/CreateRoomForm';
 import { useAuth } from '../context/AuthContext';
 import styles from '../styles/Home.module.css';
 import refreshIcon from '../assets/refresh.svg';
+import Welcome from '../components/Welcome';
 
 const Home = () => {
   const [rooms, setRooms] = useState([]);
@@ -20,10 +21,8 @@ const Home = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate('/login');
       return;
     }
-
     const fetchNearbyRooms = async () => {
       try {
         const { latitude, longitude } = location;
@@ -145,6 +144,10 @@ const Home = () => {
       ))}
     </ul>
   );
+
+  if (!token) {
+    return <Welcome></Welcome>;
+  }
 
   return (
     <div className={`defaultMainContainer ${styles.mainContainer}`}>
