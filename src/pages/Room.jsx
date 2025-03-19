@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import API from '../api';
 import { useAuth } from '../context/AuthContext';
@@ -19,11 +19,12 @@ const Room = () => {
   const [error, setError] = useState('');
   const messageContainerRef = useRef(null);
 
-  const [isAtBottom, setIsAtBottom] = useState(true);
+  const [isAtBottom, setIsAtBottom] = useState(true); //Scrolled to bottom of message container
   const inputRef = useRef(null);
-  const [userModal, setUserModal] = useState(false);
+  const [userModal, setUserModal] = useState(false); //Modal for user list
 
   useEffect(() => {
+    //Exit if not logged in or no socket connection
     if (!token || !socket) return;
 
     const fetchRoom = async () => {
@@ -80,6 +81,7 @@ const Room = () => {
     };
   }, [roomId, token, socket]);
 
+  //This effect will allow users to scroll up in chat without it jumping to bottom everytime a new message is sent
   useEffect(() => {
     if (messageContainerRef.current && isAtBottom) {
       messageContainerRef.current.scrollTop =
@@ -87,11 +89,13 @@ const Room = () => {
     }
   }, [messages]);
 
+  //Scroll to newest message
   const jumpToBottom = () => {
     messageContainerRef.current.scrollTop =
       messageContainerRef.current.scrollHeight;
   };
 
+  //Checks if user is scrolled up and updates variable
   const handleScroll = () => {
     const container = messageContainerRef.current;
     const isUserAtBottom =
@@ -116,6 +120,7 @@ const Room = () => {
     navigate('/');
   };
 
+  //focus on input at load
   const handleFocus = () => {
     setTimeout(() => {
       inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });

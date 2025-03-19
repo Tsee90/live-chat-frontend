@@ -12,6 +12,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    //If logged in navigate to home
     if (token) {
       navigate('/');
     }

@@ -1,3 +1,4 @@
+//AuthContext used to create top level variables and initiate socket connection
 import { createContext, useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import io from 'socket.io-client';
@@ -16,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
+        //Check if token is expired
         if (decoded.exp * 1000 < Date.now()) {
           logout();
           return;

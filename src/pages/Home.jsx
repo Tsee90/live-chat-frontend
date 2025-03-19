@@ -9,7 +9,7 @@ import Welcome from '../components/Welcome';
 
 const Home = () => {
   const [rooms, setRooms] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false); //Create form modal
   const navigate = useNavigate();
   const { token, location } = useAuth();
   const [miles, setMiles] = useState(5);
@@ -20,9 +20,11 @@ const Home = () => {
   const [creating, setCreating] = useState(false);
 
   useEffect(() => {
+    //Stop effect if no user logged in
     if (!token) {
       return;
     }
+
     const fetchNearbyRooms = async () => {
       try {
         const { latitude, longitude } = location;
@@ -45,7 +47,7 @@ const Home = () => {
     };
 
     fetchNearbyRooms();
-  }, [navigate, token, radiusKm, sort, isRefreshing]);
+  }, [navigate, token, radiusKm, sort, isRefreshing, location]);
 
   const handleCreateRoom = async (formData) => {
     setCreating(true);
@@ -53,7 +55,7 @@ const Home = () => {
       const startsAt = new Date();
       const expiresAt = new Date(
         new Date().setHours(new Date().getHours() + 24)
-      );
+      ); //24 hours from now
       const { name } = formData;
       const { data } = await API.post(
         '/rooms',
@@ -88,7 +90,7 @@ const Home = () => {
       setMiles('all');
     } else {
       setMiles(Number(event.target.value));
-      setRadiusKm(Number(event.target.value) * 1.609);
+      setRadiusKm(Number(event.target.value) * 1.609); //Convert to Km
     }
   };
 
@@ -102,6 +104,7 @@ const Home = () => {
     setIsRefreshing(true);
   };
 
+  //Calculate how much time has passed since room created to be displayed
   const timePast = (utc) => {
     const past = new Date(utc);
     const now = new Date();
@@ -145,6 +148,7 @@ const Home = () => {
     </ul>
   );
 
+  //If not logged in show welcome
   if (!token) {
     return <Welcome></Welcome>;
   }

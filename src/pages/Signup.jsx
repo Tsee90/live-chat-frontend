@@ -8,6 +8,7 @@ export default function Signup() {
   const { token } = useAuth();
 
   const navigate = useNavigate();
+  //If logged in navigate to home
   if (token) {
     navigate('/');
   }
@@ -28,12 +29,13 @@ export default function Signup() {
     setGlobalServerError(null); // Clear global errors when user edits
   };
 
+  //Validate form inputs
   const validate = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
+    //Create errors if needed
     if (!formData.username.trim()) newErrors.username = 'Username is required';
     if (formData.username.trim().length > 15)
       newErrors.username = 'Username cannot exceed 15 characters';
@@ -59,6 +61,7 @@ export default function Signup() {
     e.preventDefault();
     setGlobalServerError(null);
 
+    //Check and display errors
     const validationErrors = validate();
     if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
@@ -68,6 +71,7 @@ export default function Signup() {
     try {
       setLoading(true);
       const res = await API.post('/users/signup', formData);
+      //Navigate to verify email with params
       if (res) {
         navigate(`/verify-email?email=${encodeURIComponent(res.data.email)}`);
       }
