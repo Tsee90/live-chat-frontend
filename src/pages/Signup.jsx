@@ -157,11 +157,18 @@ export default function Signup() {
             Sign Up
           </button>
         )}
-        <div className={`defaultSubtext`}>
-          Already have an account?{' '}
-          <a href="/login" className={`defaultLink`}>
+        <div
+          className={`displayFlexColumn alignItemsCenter justifyContentCenter`}
+        >
+          <div className={`defaultSubtext`}>Already have an account? </div>{' '}
+          <div
+            onClick={() => {
+              navigate('/login');
+            }}
+            className={`defaultLink fontWeightBold`}
+          >
             Log in
-          </a>
+          </div>
         </div>
         {Object.keys(errors).length > 0
           ? Object.values(errors).map((error, index) => (
@@ -170,7 +177,6 @@ export default function Signup() {
               </p>
             ))
           : null}
-
         {globalServerError ? (
           <p className={`defaultErrorText`}>{globalServerError}</p>
         ) : null}

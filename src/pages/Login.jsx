@@ -83,12 +83,14 @@ const Login = () => {
           className={`displayFlexColumn alignItemsCenter ${styles.noAccount}`}
         >
           <div>Don't have an account? </div>
-          <a
-            href="/signup"
+          <div
+            onClick={() => {
+              navigate('/signup');
+            }}
             className={`themeColor fontWeightBold ${styles.signupLink}`}
           >
             Sign Up Here
-          </a>
+          </div>
         </div>
       </form>
     </div>

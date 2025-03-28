@@ -1,27 +1,48 @@
 .homeContainer {
-  margin-top: 20px;
-  width: 90%;
-  max-width: 800px;
-  align-self: center;
-  border-radius: 10px;
   overflow: hidden;
 }
 
 .homeHeader {
   width: 100%;
   padding: 5px;
-  background-color: rgb(231, 231, 231);
+}
+
+select {
+  color: gray;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+select:focus {
+  outline-color: var(--theme-color);
+}
+
+select:hover {
+  cursor: pointer;
+}
+
+.milesText {
+  font-size: 14px;
+  color: gray;
 }
 
 .createButton {
-  background-color: rgb(58, 192, 6);
-  color: white;
-  height: 25px;
-  width: 25px;
+  background: none;
+  color: gray;
+  height: 30px;
   display: flex;
+
   justify-content: center;
   align-items: center;
-  font-size: 25px;
+  font-size: 30px;
+}
+
+.hide {
+  display: none;
+}
+
+.miles {
+  gap: 5px;
 }
 
 .createButton:hover {
@@ -44,12 +65,6 @@
 
 .itemTitle {
   padding-left: 5px;
-}
-
-@media (max-width: 600px) {
-  .hideOnSmall {
-    display: none;
-  }
 }
 
 .nothing {
@@ -75,13 +90,10 @@
 }
 
 .refreshButton {
-  height: 25px;
-  width: 25px;
-  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: gray;
+  background: none;
 }
 
 .refreshButton:hover {

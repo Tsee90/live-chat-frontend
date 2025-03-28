@@ -156,15 +156,17 @@ const Home = () => {
   return (
     <div className={`defaultMainContainer ${styles.mainContainer}`}>
       <div
-        className={`displayFlexColumn alignItemsCenter boxShadow ${styles.homeContainer}`}
+        className={`displayFlexColumn alignItemsCenter ${styles.homeContainer}`}
       >
         <div
           className={`displayFlexRow justifyContentSpaceBetween alignItemsCenter ${styles.homeHeader}`}
         >
           <div className={`displayFlexRow gap10px`}>
-            <div className={`displayFlexRow gap10px`}>
-              <label htmlFor="miles" className={`${styles.hideOnSmall}`}>
-                Chizmiz within:
+            <div
+              className={`displayFlexRow alignItemsCenter justifyContentCenter ${styles.miles}`}
+            >
+              <label htmlFor="miles" className={`${styles.milesText}`}>
+                Miles:
               </label>
               <select
                 name="miles"
@@ -179,11 +181,9 @@ const Home = () => {
                 <option value={50}>50</option>
                 <option value="all">All</option>
               </select>
-              <div>miles</div>
             </div>
-            <div>|</div>
             <div className={`displayFlexRow gap10px`}>
-              <label htmlFor="sortBy" className={`${styles.hideOnSmall}`}>
+              <label htmlFor="sortBy" className={`${styles.hide}`}>
                 Sort by:
               </label>
               <select
@@ -196,21 +196,23 @@ const Home = () => {
                 <option value="newest">Newest</option>
               </select>
             </div>
-            <div>|</div>
             <button
               onClick={() => setShowModal(true)}
               className={`defaultButton fontWeightBold ${styles.createButton}`}
             >
               +
+            </button>{' '}
+            <button
+              onClick={handleRefresh}
+              className={`${styles.refreshButton}`}
+            >
+              <img
+                src={refreshIcon}
+                alt="refresh"
+                className={`${styles.refreshIcon}`}
+              />
             </button>
           </div>
-          <button onClick={handleRefresh} className={`${styles.refreshButton}`}>
-            <img
-              src={refreshIcon}
-              alt="refresh"
-              className={`${styles.refreshIcon}`}
-            />
-          </button>
         </div>
         {loading ? (
           <div className={`defaultSpinner`}></div>

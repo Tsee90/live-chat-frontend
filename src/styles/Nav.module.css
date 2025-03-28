@@ -2,41 +2,107 @@
   background-color: var(--theme-color);
   color: var(--light-font-color);
   font-family: var(--theme-font-family);
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   height: 60px;
+  position: relative;
 }
-.title {
+
+.overlay {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  justify-content: flex-end;
+  transform: translateX(100%);
+  align-self: flex-start;
+}
+
+.sidebar {
+  height: 100vh;
+  width: 250px;
+  position: fixed;
+  background-color: white;
+  color: black;
+  z-index: 2;
+  right: 0;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarTitle {
+  align-self: center;
   font-size: 32px;
+  font-weight: bold;
+  margin-top: 25px;
+}
+
+.overlay.active {
+  transform: translateX(0);
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+.title {
+  font-family: 'Delius Swash Caps', sans-serif;
+  font-size: 40px;
+  padding-left: 10px;
 }
 
 .title:hover {
   cursor: pointer;
 }
 
+.sidebarList {
+  margin-top: 20px;
+  padding-left: 20px;
+  color: var(--theme-color);
+}
+
 .logOutButton {
-  background-color: #ff4d4d;
+  background: none;
+}
+
+li:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .logOutButton:hover {
-  background-color: #d43f3f;
+  text-decoration: underline;
 }
 
 .statusIndicator {
-  width: 10px;
-  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.network {
+  align-self: center;
+  font-size: 15px;
+  color: rgb(95, 94, 94);
+}
+
+.username:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .online {
-  background-color: green;
+  color: green;
 }
 
 .offline {
-  background-color: red;
+  color: red;
 }
 
 .noLocation {
-  background-color: yellow;
+  color: yellow;
 }
 
 .signup {
@@ -50,4 +116,12 @@
 
 .login:hover {
   text-decoration: underline;
+}
+
+.userLoggedOut {
+  padding-right: 10px;
+}
+
+.userLoggedIn {
+  padding-right: 10px;
 }

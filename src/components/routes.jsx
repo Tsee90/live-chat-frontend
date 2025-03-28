@@ -4,6 +4,7 @@ import Login from '../pages/Login';
 import Room from '../pages/Room';
 import Signup from '../pages/Signup';
 import VerifyEmail from '../pages/VerifyEmail';
+import Dashboard from '../pages/Dashboard';
 
 const routes = [
   {
@@ -15,6 +16,7 @@ const routes = [
       { path: '/room/:roomId', element: <Room></Room> },
       { path: '/signup', element: <Signup></Signup> },
       { path: '/verify-email/', element: <VerifyEmail></VerifyEmail> },
+      { path: '/dashboard', element: <Dashboard></Dashboard> },
     ],
   },
 ];
