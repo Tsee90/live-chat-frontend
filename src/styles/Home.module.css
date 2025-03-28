@@ -12,6 +12,8 @@ select {
   border: none;
   background: none;
   box-shadow: none;
+  font-family: sans-serif;
+  font-size: 14px;
 }
 select:focus {
   outline-color: var(--theme-color);

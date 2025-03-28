@@ -1,7 +1,7 @@
 /* Root Variables */
 :root {
   --theme-color: rgb(200, 69, 200);
-  --theme-font-family: 'Roboto', sans-serif;
+  --theme-font-family: sans-serif;
   --light-font-color: white;
   --dark-font-color: black;
 }
