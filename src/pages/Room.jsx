@@ -198,7 +198,6 @@ const Room = () => {
         onKeyDown={(e) => {
           if (e.key === 'Enter' && newMessage.trim()) {
             handleSendMessage();
-            inputRef.current.blur();
           }
         }}
         className={`flexGrow1 ${styles.input}`}
