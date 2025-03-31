@@ -97,14 +97,8 @@ const Room = () => {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        document.documentElement.style.setProperty(
-          '--varvh',
-          `${viewHeight}px`
-        );
-      });
-    }, 0); // Small delay to ensure the browser has adjusted layout first
+    document.documentElement.style.setProperty('--varvh', `${viewHeight}px`);
+
     jumpToBottom();
   }, [viewHeight]);
 
