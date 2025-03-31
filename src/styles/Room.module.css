@@ -1,6 +1,7 @@
 .messageContainer {
   overflow-y: auto;
   position: relative;
+  border: 1px solid red;
 }
 
 .jumpToBottomButton {
@@ -25,18 +26,16 @@
 }
 
 .messageWrapper {
-  height: calc(100vh - 60px);
   min-width: 50%;
   align-self: center;
   padding: 5px 10px;
+  border: 1px solid;
+  justify-content: space-between;
 }
 
 @media (max-width: 600px) {
   .messageWrapper {
     width: 100vw;
-  }
-  .headerContainer {
-    position: fixed;
   }
 }
 @media (min-width: 601px) {
@@ -67,8 +66,9 @@
 }
 
 .inputContainer {
-  position: sticky;
-  bottom: 0px;
+  position: fixed;
+  bottom: 1px;
+  width: 100%;
 }
 
 .input {
@@ -125,4 +125,9 @@
 
 .usersIcon:hover {
   filter: brightness(1.5);
+}
+
+.buffer {
+  border: 1px solid green;
+  flex-grow: 1;
 }

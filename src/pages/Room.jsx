@@ -222,7 +222,7 @@ const Room = () => {
   const messageContainer = (
     <div
       ref={messageContainerRef}
-      className={`flexGrow1 ${styles.messageContainer}`}
+      className={` ${styles.messageContainer}`}
       onScroll={handleScroll}
     >
       {messages.map((msg) => (
@@ -271,9 +271,10 @@ const Room = () => {
     <div className={`defaultMainContainer positionRelative`}>
       <div className={`displayFlexColumn ${styles.messageWrapper}`}>
         <div className={`${styles.headerContainer}`}>{titleContainer}</div>
+
         {messageContainer}
-        {messageInput}
       </div>
+      {messageInput}
       {userModal ? usersContainer : null}
     </div>
   );
