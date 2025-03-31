@@ -45,7 +45,9 @@ const Room = () => {
       } finally {
         setLoading(false);
         jumpToBottom();
-        handleFocus();
+        setTimeout(() => {
+          handleFocus(); // Delay focus slightly after state update
+        }, 0);
       }
     };
 
@@ -204,7 +206,14 @@ const Room = () => {
         maxLength={2000}
         ref={inputRef}
       />
-      <button onClick={handleSendMessage} className={`${styles.sendButton}`}>
+      <button
+        onMouseDown={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        onClick={handleSendMessage}
+        className={`${styles.sendButton}`}
+      >
         Send
       </button>
     </div>
