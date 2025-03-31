@@ -18,10 +18,10 @@ const Room = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const messageContainerRef = useRef(null);
-
   const [isAtBottom, setIsAtBottom] = useState(true); //Scrolled to bottom of message container
   const inputRef = useRef(null);
   const [userModal, setUserModal] = useState(false); //Modal for user list
+  const [viewHeight, setViewHeight] = useState(window.visualViewport.height);
 
   useEffect(() => {
     //Exit if not logged in or no socket connection
@@ -86,34 +86,20 @@ const Room = () => {
   }, [roomId, token, socket]);
 
   useEffect(() => {
-    const adjustForKeyboard = () => {
-      document.documentElement.style.setProperty(
-        '--varvh',
-        `${window.visualViewport.height}px`
-      );
+    const handleResize = () => {
+      setViewHeight(window.visualViewport.height);
     };
 
-    window.visualViewport.addEventListener('resize', adjustForKeyboard);
-    adjustForKeyboard(); // Run once on mount
+    window.visualViewport.addEventListener('resize', handleResize);
 
     return () =>
-      window.visualViewport.removeEventListener('resize', adjustForKeyboard);
+      window.visualViewport.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
-    const adjustForKeyboard = () => {
-      document.documentElement.style.setProperty(
-        '--vh',
-        `${window.visualViewport.height * 0.01}px`
-      );
-    };
-
-    window.visualViewport.addEventListener('resize', adjustForKeyboard);
-    adjustForKeyboard(); // Run once on mount
-
-    return () =>
-      window.visualViewport.removeEventListener('resize', adjustForKeyboard);
-  }, []);
+    document.documentElement.style.setProperty('--varvh', `${viewHeight}px`);
+    jumpToBottom();
+  }, [viewHeight]);
 
   //This effect will allow users to scroll up in chat without it jumping to bottom everytime a new message is sent
   useEffect(() => {
