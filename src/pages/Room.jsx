@@ -162,7 +162,9 @@ const Room = () => {
   //focus on input
   const handleFocus = () => {
     inputRef.current.focus();
-    jumpToBottom();
+    setTimeout(() => {
+      jumpToBottom(); // Delay focus slightly after state update
+    }, 100);
   };
 
   const handleUserModal = () => {
