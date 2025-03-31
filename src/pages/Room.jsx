@@ -104,7 +104,7 @@ const Room = () => {
           `${viewHeight}px`
         );
       });
-    }, 50); // Small delay to ensure the browser has adjusted layout first
+    }, 0); // Small delay to ensure the browser has adjusted layout first
     jumpToBottom();
   }, [viewHeight]);
 
