@@ -181,6 +181,30 @@ const Room = () => {
       </div>
     </div>
   );
+  const messageInput = (
+    <div className={`displayFlexRow  ${styles.inputContainer}`}>
+      <input
+        type="text"
+        value={newMessage}
+        onChange={(e) => {
+          setNewMessage(e.target.value);
+        }}
+        placeholder="Type your message..."
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && newMessage.trim()) {
+            handleSendMessage();
+          }
+        }}
+        className={`flexGrow1 ${styles.input}`}
+        maxLength={2000}
+        ref={inputRef}
+        onFocus={handleFocus}
+      />
+      <button onClick={handleSendMessage} className={`${styles.sendButton}`}>
+        Send
+      </button>
+    </div>
+  );
 
   const messageContainer = (
     <div
@@ -205,31 +229,6 @@ const Room = () => {
           Jump To Bottom
         </button>
       ) : null}
-    </div>
-  );
-
-  const messageInput = (
-    <div className={`displayFlexRow  ${styles.inputContainer}`}>
-      <input
-        type="text"
-        value={newMessage}
-        onChange={(e) => {
-          setNewMessage(e.target.value);
-        }}
-        placeholder="Type your message..."
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && newMessage.trim()) {
-            handleSendMessage();
-          }
-        }}
-        className={`flexGrow1 ${styles.input}`}
-        maxLength={2000}
-        ref={inputRef}
-        onFocus={handleFocus}
-      />
-      <button onClick={handleSendMessage} className={`${styles.sendButton}`}>
-        Send
-      </button>
     </div>
   );
 

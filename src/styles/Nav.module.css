@@ -112,10 +112,12 @@ li:hover {
 }
 
 .signup:hover {
+  cursor: pointer;
   filter: brightness(1.2);
 }
 
 .login:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
 

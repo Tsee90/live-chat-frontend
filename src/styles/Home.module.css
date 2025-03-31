@@ -11,12 +11,12 @@ select {
   color: gray;
   border: none;
   background: none;
-  box-shadow: none;
+  box-shadow: none !important;
   font-family: sans-serif;
   font-size: 14px;
 }
 select:focus {
-  outline-color: var(--theme-color);
+  outline: none;
 }
 
 select:hover {
