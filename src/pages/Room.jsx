@@ -113,9 +113,13 @@ const Room = () => {
     try {
       socket.emit('send_message', { message: newMessage, createdAt });
       setNewMessage('');
-      jumpToBottom();
     } catch (error) {
       console.error('Failed to send message:', error);
+    } finally {
+      jumpToBottom();
+      setTimeout(() => {
+        handleFocus(); // Delay focus slightly after state update
+      }, 0);
     }
   };
 
@@ -123,7 +127,7 @@ const Room = () => {
     navigate('/');
   };
 
-  //focus on input at load
+  //focus on input
   const handleFocus = () => {
     inputRef.current.focus();
   };
@@ -200,7 +204,6 @@ const Room = () => {
         className={`flexGrow1 ${styles.input}`}
         maxLength={2000}
         ref={inputRef}
-        onFocus={handleFocus}
       />
       <button onClick={handleSendMessage} className={`${styles.sendButton}`}>
         Send
