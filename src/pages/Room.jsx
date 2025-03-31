@@ -162,9 +162,6 @@ const Room = () => {
   //focus on input
   const handleFocus = () => {
     inputRef.current.focus();
-    setTimeout(() => {
-      jumpToBottom(); // Delay focus slightly after state update
-    }, 100);
   };
 
   const handleUserModal = () => {
@@ -238,6 +235,9 @@ const Room = () => {
         className={`flexGrow1 ${styles.input}`}
         maxLength={2000}
         ref={inputRef}
+        onFocus={() => {
+          jumpToBottom();
+        }}
       />
       <button
         onMouseDown={(e) => {
