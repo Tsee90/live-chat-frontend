@@ -183,7 +183,7 @@ const Room = () => {
     </div>
   );
   const messageInput = (
-    <form className={`displayFlexRow  ${styles.inputContainer}`}>
+    <div className={`displayFlexRow  ${styles.inputContainer}`}>
       <input
         type="text"
         value={newMessage}
@@ -194,6 +194,7 @@ const Room = () => {
         onKeyDown={(e) => {
           if (e.key === 'Enter' && newMessage.trim()) {
             handleSendMessage();
+            inputRef.current.blur();
           }
         }}
         className={`flexGrow1 ${styles.input}`}
@@ -204,7 +205,7 @@ const Room = () => {
       <button onClick={handleSendMessage} className={`${styles.sendButton}`}>
         Send
       </button>
-    </form>
+    </div>
   );
 
   const messageContainer = (
