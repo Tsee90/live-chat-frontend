@@ -162,6 +162,7 @@ const Room = () => {
   //focus on input
   const handleFocus = () => {
     inputRef.current.focus();
+    jumpToBottom();
   };
 
   const handleUserModal = () => {
