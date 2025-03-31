@@ -111,6 +111,7 @@ const Room = () => {
     try {
       socket.emit('send_message', { message: newMessage, createdAt });
       setNewMessage('');
+      jumpToBottom();
     } catch (error) {
       console.error('Failed to send message:', error);
     }
@@ -182,7 +183,7 @@ const Room = () => {
     </div>
   );
   const messageInput = (
-    <div className={`displayFlexRow  ${styles.inputContainer}`}>
+    <form className={`displayFlexRow  ${styles.inputContainer}`}>
       <input
         type="text"
         value={newMessage}
@@ -203,7 +204,7 @@ const Room = () => {
       <button onClick={handleSendMessage} className={`${styles.sendButton}`}>
         Send
       </button>
-    </div>
+    </form>
   );
 
   const messageContainer = (
