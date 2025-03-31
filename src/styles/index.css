@@ -4,6 +4,7 @@
   --theme-font-family: sans-serif;
   --light-font-color: white;
   --dark-font-color: black;
+  --varvh: 100vh;
 }
 
 #root {

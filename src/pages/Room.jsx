@@ -85,6 +85,37 @@ const Room = () => {
     };
   }, [roomId, token, socket]);
 
+  useEffect(() => {
+    const adjustForKeyboard = () => {
+      document.documentElement.style.setProperty(
+        '--varvh',
+        `${window.visualViewport.height}px`
+      );
+      console.log('resized');
+    };
+
+    window.visualViewport.addEventListener('resize', adjustForKeyboard);
+    adjustForKeyboard(); // Run once on mount
+
+    return () =>
+      window.visualViewport.removeEventListener('resize', adjustForKeyboard);
+  }, []);
+
+  useEffect(() => {
+    const adjustForKeyboard = () => {
+      document.documentElement.style.setProperty(
+        '--vh',
+        `${window.visualViewport.height * 0.01}px`
+      );
+    };
+
+    window.visualViewport.addEventListener('resize', adjustForKeyboard);
+    adjustForKeyboard(); // Run once on mount
+
+    return () =>
+      window.visualViewport.removeEventListener('resize', adjustForKeyboard);
+  }, []);
+
   //This effect will allow users to scroll up in chat without it jumping to bottom everytime a new message is sent
   useEffect(() => {
     if (messageContainerRef.current && isAtBottom) {
@@ -268,13 +299,14 @@ const Room = () => {
   );
 
   return (
-    <div className={`defaultMainContainer positionRelative`}>
+    <div className={`${styles.mainContainer}`}>
       <div className={`displayFlexColumn ${styles.messageWrapper}`}>
         <div className={`${styles.headerContainer}`}>{titleContainer}</div>
 
         {messageContainer}
+        {messageInput}
       </div>
-      {messageInput}
+
       {userModal ? usersContainer : null}
     </div>
   );
