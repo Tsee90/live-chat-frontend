@@ -1,5 +1,9 @@
 .mainContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   height: calc(var(--varvh) - 60px);
+  border: 2px solid green;
 }
 
 .messageContainer {

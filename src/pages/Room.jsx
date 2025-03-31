@@ -91,7 +91,6 @@ const Room = () => {
         '--varvh',
         `${window.visualViewport.height}px`
       );
-      console.log('resized');
     };
 
     window.visualViewport.addEventListener('resize', adjustForKeyboard);

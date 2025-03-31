@@ -46,7 +46,7 @@ body {
   font-family: var(--theme-font-family);
   line-height: 1.6;
   background-color: rgb(254, 254, 254);
-  height: 100vh;
+  height: var(--varvh);
   display: flex;
   flex-direction: column;
 }
