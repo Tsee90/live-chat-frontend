@@ -44,6 +44,8 @@ const Room = () => {
         setError('Failed to load room. Please try again.');
       } finally {
         setLoading(false);
+        jumpToBottom();
+        handleFocus();
       }
     };
 
@@ -123,9 +125,7 @@ const Room = () => {
 
   //focus on input at load
   const handleFocus = () => {
-    setTimeout(() => {
-      inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 300);
+    inputRef.current.focus();
   };
 
   const handleUserModal = () => {
