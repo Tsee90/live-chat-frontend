@@ -226,11 +226,10 @@ const Room = () => {
       onScroll={handleScroll}
     >
       {messages.map((msg) => (
-        <div key={msg.id} className={`displayFlexRow ${styles.messageItem}`}>
-          <div className={`fontWeightBold themeColor`}>
+        <div key={msg.id} className={`${styles.messageItem}`}>
+          <span className={`themeColor fontWeightBold`}>
             {msg.sender.username}:
-          </div>
-
+          </span>{' '}
           {msg.content}
         </div>
       ))}
