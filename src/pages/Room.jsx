@@ -111,8 +111,10 @@ const Room = () => {
 
   //Scroll to newest message
   const jumpToBottom = () => {
-    messageContainerRef.current.scrollTop =
-      messageContainerRef.current.scrollHeight;
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }
   };
 
   //Checks if user is scrolled up and updates variable
