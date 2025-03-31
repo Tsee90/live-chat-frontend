@@ -236,7 +236,9 @@ const Room = () => {
         maxLength={2000}
         ref={inputRef}
         onFocus={() => {
-          jumpToBottom();
+          setTimeout(() => {
+            jumpToBottom(); // Delay focus slightly after state update
+          }, 50);
         }}
       />
       <button
