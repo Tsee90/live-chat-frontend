@@ -98,9 +98,7 @@ const Room = () => {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      document.documentElement.style.setProperty('--varvh', `${viewHeight}px`);
-    }, 0);
+    document.documentElement.style.setProperty('--varvh', `${viewHeight}px`);
 
     jumpToBottom();
   }, [viewHeight]);
