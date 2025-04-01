@@ -98,7 +98,9 @@ const Room = () => {
   }, []);
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--varvh', `${viewHeight}px`);
+    setTimeout(() => {
+      document.documentElement.style.setProperty('--varvh', `${viewHeight}px`);
+    }, 0);
 
     jumpToBottom();
   }, [viewHeight]);
@@ -288,8 +290,9 @@ const Room = () => {
 
   return (
     <div className={`${styles.mainContainer}`}>
-      <div className={`${styles.headerContainer}`}>{titleContainer}</div>
       <div className={`displayFlexColumn ${styles.messageWrapper}`}>
+        <div className={`${styles.headerContainer}`}>{titleContainer}</div>
+
         {messageContainer}
         {messageInput}
       </div>
