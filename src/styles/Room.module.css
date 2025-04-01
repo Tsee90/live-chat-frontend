@@ -68,8 +68,9 @@
 }
 
 .headerContainer {
-  border-bottom: 1px solid black;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
   background-color: white;
+  padding: 0px 5px;
 }
 
 .input {
@@ -93,15 +94,28 @@
   filter: brightness(1.2);
 }
 
+.leaveButton {
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .leaveButton:hover {
   filter: brightness(0.8);
 }
 
+.icon {
+  height: 50px;
+}
+
 .title {
-  max-width: 30%;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  font-size: 20px;
 }
 
 .title::-webkit-scrollbar {

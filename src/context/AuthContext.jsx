@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
           logout();
           return;
         }
-        console.log(decoded);
         setUser(decoded);
         const newSocket = io(
           import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',

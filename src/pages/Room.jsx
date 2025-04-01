@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Room.module.css';
 import peopleIcon from '../assets/people.svg';
+import backIcon from '../assets/back.svg';
 
 const Room = () => {
   const navigate = useNavigate();
@@ -272,32 +273,25 @@ const Room = () => {
 
   const titleContainer = (
     <div
-      className={`displayFlexRow justifyContentSpaceBetween alignItemsCenter ${styles.titleContainer}`}
+      className={`displayFlexRow justifyContentSpaceBetween alignItemsCenter gap10px ${styles.titleContainer}`}
     >
-      <div className={`fontWeightBold fontSize30px ${styles.title}`}>
-        {roomName}
-      </div>
+      <div className={`fontWeightBold ${styles.title}`}>{roomName}</div>
       <div
-        className={`displayFlexRow gap10px justifyContentCenter alignItemsCenter ${styles.usersIcon}`}
+        className={`displayFlexRow gap10px ${styles.usersIcon}`}
         onClick={handleUserModal}
       >
-        <img src={peopleIcon} alt="people" />
-        <div>{users.length}</div>
+        <img src={peopleIcon} alt="people" className={`${styles.icon}`} />
       </div>
-      <button
-        onClick={handleLeaveRoom}
-        className={`defaultButton ${styles.leaveButton}`}
-      >
-        Leave
+      <button onClick={handleLeaveRoom} className={` ${styles.leaveButton}`}>
+        <img src={backIcon} alt="" className={`${styles.icon}`} />
       </button>
     </div>
   );
 
   return (
     <div className={`${styles.mainContainer}`}>
+      <div className={`${styles.headerContainer}`}>{titleContainer}</div>
       <div className={`displayFlexColumn ${styles.messageWrapper}`}>
-        <div className={`${styles.headerContainer}`}>{titleContainer}</div>
-
         {messageContainer}
         {messageInput}
       </div>
