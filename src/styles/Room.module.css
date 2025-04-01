@@ -86,7 +86,8 @@
 }
 
 .input:focus {
-  outline-color: var(--theme-color);
+  outline: none;
+  border: 1px solid var(--theme-color);
 }
 .sendButton {
   padding: 0px 5px;
@@ -110,8 +111,12 @@
   filter: brightness(0.8);
 }
 
-.icon {
-  height: 50px;
+.iconPeople {
+  height: 35px;
+}
+
+.iconBack {
+  height: 35px;
 }
 
 .title {
