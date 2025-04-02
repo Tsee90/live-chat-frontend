@@ -22,10 +22,12 @@ const CreateRoomForm = ({ onClose, onSubmit, creating }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className={`defaultForm displayFlexColumn alignItemsCenter justifyContentSpaceAround ${styles.createRoomForm}`}
+      className={` displayFlexColumn alignItemsCenter justifyContentSpaceBetween ${styles.createRoomForm}`}
       onClick={(e) => e.stopPropagation()}
     >
-      <div className={`fontWeightBold fontSize30px`}>New Room</div>
+      <div className={`fontWeightBold fontSize30px ${styles.title}`}>
+        New Room
+      </div>
 
       <input
         type="text"
@@ -34,25 +36,15 @@ const CreateRoomForm = ({ onClose, onSubmit, creating }) => {
         onChange={handleChange}
         placeholder="enter name"
         required
-        className={`defaultInput`}
+        className={`defaultInput ${styles.input}`}
       />
 
       {creating ? (
         <div className={`defaultSpinner`}></div>
       ) : (
         <div className={`displayFlexRow justifyContentSpaceAround width100`}>
-          <button
-            type="submit"
-            className={`defaultButton ${styles.createButton}`}
-          >
+          <button type="submit" className={` ${styles.createButton}`}>
             Create
-          </button>
-          <button
-            type="button"
-            onClick={onClose}
-            className={`defaultButton ${styles.cancelButton}`}
-          >
-            Cancel
           </button>
         </div>
       )}

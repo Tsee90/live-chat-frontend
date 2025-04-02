@@ -60,7 +60,7 @@ const Nav = () => {
     <div
       onClick={(e) => e.stopPropagation()}
       className={`displayFlexColumn ${styles.sidebar} ${
-        userModal ? styles.active : ''
+        userModal ? styles.active : null
       }`}
     >
       <div className={`${styles.sidebarTitle}`}>{user?.username}</div>

@@ -10,7 +10,7 @@ import shareIcon from '../assets/share.svg';
 
 const Room = () => {
   const navigate = useNavigate();
-  const { token, socket } = useAuth();
+  const { token, socket, viewHeight } = useAuth();
   const { roomId } = useParams();
   const [roomName, setRoomName] = useState('');
   const [users, setUsers] = useState([]);
@@ -23,7 +23,6 @@ const Room = () => {
   const [isAtBottom, setIsAtBottom] = useState(true); //Scrolled to bottom of message container
   const inputRef = useRef(null);
   const [userModal, setUserModal] = useState(false); //Modal for user list
-  const [viewHeight, setViewHeight] = useState(window.visualViewport.height);
   const [shareModal, setShareModal] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -90,19 +89,7 @@ const Room = () => {
   }, [roomId, token, socket]);
 
   useEffect(() => {
-    const handleResize = () => {
-      setViewHeight(window.visualViewport.height);
-    };
-
-    window.visualViewport.addEventListener('resize', handleResize);
-
-    return () =>
-      window.visualViewport.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
     setTimeout(() => {
-      document.documentElement.style.setProperty('--varvh', `${viewHeight}px`);
       jumpToBottom();
     }, 0);
   }, [viewHeight]);
@@ -198,7 +185,9 @@ const Room = () => {
 
   const usersList = () => {
     return (
-      <ul className={`displayFlexColumn flexGrow1 ${styles.usersList} `}>
+      <ul
+        className={`displayFlexColumn alignItemsCenter flexGrow1 ${styles.usersList} `}
+      >
         {users.map((user) => (
           <li key={user.id} className={`displayFlexRow`}>
             {user.username}
@@ -225,7 +214,10 @@ const Room = () => {
           </div>
           {usersList()}
         </div>
-        <button className={`defaultButton`} onClick={handleUserModal}>
+        <button
+          className={`defaultButton ${styles.usersCloseButton}`}
+          onClick={handleUserModal}
+        >
           Close
         </button>
       </div>

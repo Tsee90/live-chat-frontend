@@ -5,6 +5,7 @@
   --light-font-color: white;
   --dark-font-color: black;
   --varvh: 100vh;
+  --navHeight: 60px;
 }
 
 #root {
@@ -196,6 +197,11 @@ a {
   border: none;
   text-align: center;
   font-size: 15px;
+}
+
+.defaultInput:focus {
+  outline: none;
+  border: 1px solid var(--theme-color);
 }
 
 .defaultMainContainer {

@@ -70,8 +70,32 @@ select:hover {
 }
 
 .nothing {
-  padding: 100px 0px;
+  padding: 100px 20px;
   color: rgb(163, 163, 163);
+  text-align: center;
+}
+
+.createError {
+  margin-top: 50px;
+  color: rgb(90, 90, 90);
+  text-align: center;
+  background-color: white;
+  height: 200px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.errorTitle {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.errorCloseButton:hover {
+  filter: brightness(0.8);
 }
 
 .itemFooter {
@@ -85,10 +109,12 @@ select:hover {
 }
 
 .overlay {
-  height: 100%;
+  height: calc(var(--varvh) - var(--navHeight));
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
+  display: flex;
+  justify-content: center;
 }
 
 .refreshButton {

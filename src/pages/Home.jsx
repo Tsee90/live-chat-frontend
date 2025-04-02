@@ -11,7 +11,7 @@ const Home = () => {
   const [rooms, setRooms] = useState([]);
   const [showModal, setShowModal] = useState(false); //Create form modal
   const navigate = useNavigate();
-  const { token, location } = useAuth();
+  const { token, location, disconnected } = useAuth();
   const [miles, setMiles] = useState(5);
   const [radiusKm, setRadiusKm] = useState(5 * 1.609);
   const [loading, setLoading] = useState(true);
@@ -216,6 +216,15 @@ const Home = () => {
         </div>
         {loading ? (
           <div className={`defaultSpinner`}></div>
+        ) : disconnected ? (
+          <div className={`${styles.nothing}`}>
+            Cannot connect to server. Try again later.
+          </div>
+        ) : !location ? (
+          <div className={`${styles.nothing}`}>
+            No location detected. Please check to make sure location is allowed
+            in browser.
+          </div>
         ) : rooms.length > 0 ? (
           roomList
         ) : (
@@ -233,11 +242,45 @@ const Home = () => {
           className={`${styles.overlay}`}
           onClick={() => setShowModal(false)}
         >
-          <CreateRoomForm
-            onClose={() => setShowModal(false)}
-            onSubmit={handleCreateRoom}
-            creating={creating}
-          />
+          {disconnected ? (
+            <div className={`${styles.createError}`}>
+              <div className={`${styles.errorTitle}`}>Error</div>
+              <div>
+                No server connection.
+                <br /> Try again Later.
+              </div>
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                }}
+                className={`defaultButton ${styles.errorCloseButton}`}
+              >
+                Close
+              </button>
+            </div>
+          ) : !location ? (
+            <div className={`${styles.createError}`}>
+              <div className={`${styles.errorTitle}`}>Error</div>
+              <div>
+                No location detected.
+                <br /> Please enable location in your browser.
+              </div>
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                }}
+                className={`defaultButton ${styles.errorCloseButton}`}
+              >
+                Close
+              </button>
+            </div>
+          ) : (
+            <CreateRoomForm
+              onClose={() => setShowModal(false)}
+              onSubmit={handleCreateRoom}
+              creating={creating}
+            />
+          )}
         </div>
       )}
     </div>

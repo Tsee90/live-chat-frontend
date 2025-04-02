@@ -1,20 +1,28 @@
 .createRoomForm {
-  position: absolute;
-  left: 50%;
-  top: 30%;
-  transform: translate(-50%, -50%);
-  min-height: 30%;
+  margin-top: 50px;
+  height: 200px;
+  max-height: 90%;
+  background-color: white;
+  padding: 20px 10px;
+  border-radius: 10px;
+  width: 300px;
+  max-width: 90%;
 }
 
 .createButton {
-  background-color: rgb(6, 201, 6);
+  background-color: var(--theme-color);
   color: white;
+  flex-grow: 1;
+  margin: 0px 20px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .createButton:hover {
   filter: brightness(1.2);
 }
 
-.cancelButton:hover {
-  filter: brightness(0.8);
+.title {
+  color: var(--theme-color);
+  font-family: 'Delius Swash Caps', sans-serif;
 }

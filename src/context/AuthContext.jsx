@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import io from 'socket.io-client';
+import API from '../api';
 
 const AuthContext = createContext();
 
@@ -12,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [disconnected, setDisconnected] = useState(true);
   const [forcedLogout, setForcedLogout] = useState(false);
   const [location, setLocation] = useState(null);
+  const [viewHeight, setViewHeight] = useState(window.visualViewport.height);
 
   useEffect(() => {
     if (token) {
@@ -22,7 +24,7 @@ export const AuthProvider = ({ children }) => {
           logout();
           return;
         }
-
+        console.log(decoded);
         setUser(decoded);
         const newSocket = io(
           import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',
@@ -64,6 +66,10 @@ export const AuthProvider = ({ children }) => {
         getPosition();
 
         return () => {
+          if (user?.role === 'guest') {
+            localStorage.removeItem('token');
+            alert('token destroyed');
+          }
           newSocket.disconnect();
           newSocket.removeAllListeners();
         };
@@ -79,6 +85,23 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setViewHeight(window.visualViewport.height);
+    };
+
+    window.visualViewport.addEventListener('resize', handleResize);
+
+    return () =>
+      window.visualViewport.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      document.documentElement.style.setProperty('--varvh', `${viewHeight}px`);
+    }, 0);
+  }, [viewHeight]);
+
   const login = (newToken) => {
     try {
       localStorage.setItem('token', newToken);
@@ -91,7 +114,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    if (user.role === 'guest') {
+      try {
+        socket.disconnect();
+        await API.delete(`users/${user.id}`);
+      } catch (error) {
+        console.log(error);
+      }
+    }
     localStorage.removeItem('token');
     setToken(null);
     setUser(null);
@@ -108,6 +139,7 @@ export const AuthProvider = ({ children }) => {
         location,
         login,
         logout,
+        viewHeight,
       }}
     >
       {children}

@@ -13,7 +13,7 @@ const Welcome = () => {
         Welcome to Chizmiz.live, a location based chat app to find out the
         current happenings in your area and beyond. Ask questions, chat about
         local events as they happen, or just shoot the breeze! What are you
-        waiting for sign up now to start some chizmiz!
+        waiting for? Sign up now to start some chizmiz!
       </div>
       <a href="/signup" className={`${styles.signup}`}>
         Sign Up
