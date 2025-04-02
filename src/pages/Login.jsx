@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import API from '../api';
 import { useAuth } from '../context/AuthContext';
 import styles from '../styles/Login.module.css';
+import GuestLogin from '../components/GuestLogin';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -39,11 +40,11 @@ const Login = () => {
 
   return (
     <div
-      className={`defaultMainContainer alignItemsCenter justifyContentCenter ${styles.mainContainer}`}
+      className={`defaultMainContainer alignItemsCenter ${styles.mainContainer}`}
     >
       <form
         onSubmit={handleSubmit}
-        className={`displayFlexColumn justifyContentSpaceAround alignItemsCenter defaultForm ${styles.form}`}
+        className={`displayFlexColumn justifyContentSpaceAround alignItemsCenter gap10px ${styles.form}`}
       >
         <div className={`fontWeightBold ${styles.title}`}>Welcome!</div>
         <div
@@ -93,6 +94,7 @@ const Login = () => {
           </div>
         </div>
       </form>
+      <GuestLogin></GuestLogin>
     </div>
   );
 };

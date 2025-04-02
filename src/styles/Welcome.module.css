@@ -1,10 +1,13 @@
 .title {
   margin-top: 10px;
+  color: var(--theme-color);
+  font-family: 'Delius Swash Caps', sans-serif;
 }
 
 .info {
   max-width: 500px;
   font-size: 18px;
+  color: rgb(90, 90, 90);
 }
 
 .signup {

@@ -3,6 +3,7 @@ import API from '../api';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Signup.module.css';
 import { useAuth } from '../context/AuthContext';
+import GuestLogin from '../components/GuestLogin';
 
 export default function Signup() {
   const { token } = useAuth();
@@ -104,13 +105,15 @@ export default function Signup() {
 
   return (
     <div
-      className={`defaultMainContainer alignItemsCenter justifyContentCenter gap10px`}
+      className={`defaultMainContainer alignItemsCenter ${styles.mainContainer}`}
     >
       <form
         onSubmit={handleSubmit}
-        className={`defaultForm displayFlexColumn justifyContentSpaceAround alignItemsCenter gap10px`}
+        className={`displayFlexColumn justifyContentSpaceAround alignItemsCenter gap10px ${styles.signupForm}`}
       >
-        <div className={`fontWeightBold fontSize30px`}>New Account</div>
+        <div className={`fontWeightBold fontSize30px ${styles.title}`}>
+          New Account
+        </div>
         <div
           className={`displayFlexColumn alignItemsCenter defaultInputsContainer`}
         >
@@ -181,6 +184,7 @@ export default function Signup() {
           <p className={`defaultErrorText`}>{globalServerError}</p>
         ) : null}
       </form>
+      <GuestLogin></GuestLogin>
     </div>
   );
 }

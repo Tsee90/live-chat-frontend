@@ -20,6 +20,7 @@
 .sidebar {
   height: 100vh;
   width: 250px;
+  max-width: 90%;
   position: fixed;
   background-color: white;
   color: black;
@@ -106,14 +107,30 @@ li:hover {
   color: rgb(226, 226, 24);
 }
 
+.userLoggedOut {
+  justify-content: center;
+}
+
 .signup {
-  font-size: 20px;
-  background-color: rgb(22, 158, 22);
+  font-size: 16px;
+  line-height: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.login {
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  line-height: 10px;
 }
 
 .signup:hover {
   cursor: pointer;
   filter: brightness(1.2);
+  text-decoration: underline;
 }
 
 .login:hover {

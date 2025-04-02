@@ -28,9 +28,7 @@ const Nav = () => {
     </div>
   );
   const userLoggedOut = (
-    <div
-      className={`displayFlexRow alignItemsCenter gap10px ${styles.userLoggedOut}`}
-    >
+    <div className={`displayFlexRow gap10px ${styles.userLoggedOut}`}>
       <div
         className={`${styles.login}`}
         onClick={() => {
@@ -40,7 +38,7 @@ const Nav = () => {
         Log in
       </div>
       <div
-        className={`fontWeightBold defaultButton ${styles.signup}`}
+        className={`fontWeightBold ${styles.signup}`}
         onClick={() => {
           navigate('/signup');
         }}
@@ -54,7 +52,7 @@ const Nav = () => {
       onClick={() => {
         setUserModal(false);
       }}
-      className={`${styles.overlay} ${userModal ? styles.active : ''}`}
+      className={`${styles.overlay} ${userModal ? styles.active : null}`}
     ></div>
   );
 
@@ -126,7 +124,7 @@ const Nav = () => {
         Chizmiz
       </div>
       {user ? userLoggedIn : userLoggedOut}
-      {overlay}
+      {userModal ? overlay : null}
       {userSidebar}
     </nav>
   );

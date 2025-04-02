@@ -1,8 +1,12 @@
 .form {
+  width: 300px;
+  margin-top: 50px;
 }
 
 .title {
   font-size: 30px;
+  color: var(--theme-color);
+  font-family: 'Delius Swash Caps', sans-serif;
 }
 
 .loginButton {

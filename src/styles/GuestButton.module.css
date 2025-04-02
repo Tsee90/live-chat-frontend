@@ -1,0 +1,5 @@
+.guestButton {
+  background: none;
+  color: var(--theme-color);
+  font-size: 13px;
+}

@@ -1,4 +1,5 @@
 import styles from '../styles/Welcome.module.css';
+import GuestLogin from './GuestLogin';
 
 const Welcome = () => {
   return (
@@ -16,7 +17,8 @@ const Welcome = () => {
       </div>
       <a href="/signup" className={`${styles.signup}`}>
         Sign Up
-      </a>
+      </a>{' '}
+      <GuestLogin></GuestLogin>
     </div>
   );
 };

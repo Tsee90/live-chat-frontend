@@ -2,3 +2,13 @@
   background-color: var(--theme-color);
   color: var(--light-font-color);
 }
+
+.signupForm {
+  width: 300px;
+  margin-top: 50px;
+}
+
+.title {
+  color: var(--theme-color);
+  font-family: 'Delius Swash Caps', sans-serif;
+}
