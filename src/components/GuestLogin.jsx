@@ -7,7 +7,7 @@ const GuestLogin = () => {
   const guestLogin = async () => {
     try {
       console.log('guest logging in...');
-      const guest = await API.post(`/users/guest`);
+      const guest = await API.post(`/users/guest`, {});
       console.log(guest);
       login(guest.data.token);
       console.log('login successful!');

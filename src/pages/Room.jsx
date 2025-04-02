@@ -88,6 +88,7 @@ const Room = () => {
     };
   }, [roomId, token, socket]);
 
+  //Jumps to bottom of text when user opens mobile keyboard or chages height
   useEffect(() => {
     setTimeout(() => {
       jumpToBottom();
