@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Room.module.css';
 import peopleIcon from '../assets/people.svg';
 import backIcon from '../assets/back.svg';
+import shareIcon from '../assets/share.svg';
 
 const Room = () => {
   const navigate = useNavigate();
@@ -23,10 +24,12 @@ const Room = () => {
   const inputRef = useRef(null);
   const [userModal, setUserModal] = useState(false); //Modal for user list
   const [viewHeight, setViewHeight] = useState(window.visualViewport.height);
+  const [shareModal, setShareModal] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     //Exit if not logged in or no socket connection
-    if (!token || !socket) return;
+    if (!token || !socket) navigate('/login');
 
     const fetchRoom = async () => {
       try {
@@ -156,11 +159,30 @@ const Room = () => {
   };
 
   const handleUserModal = () => {
-    setUserModal(true);
+    if (userModal) {
+      setUserModal(false);
+    } else {
+      setUserModal(true);
+    }
   };
 
-  const handleCloseUserModal = () => {
-    setUserModal(false);
+  const handleShareModal = () => {
+    if (shareModal) {
+      setShareModal(false);
+      setCopied(false);
+    } else {
+      setShareModal(true);
+    }
+  };
+
+  const handleCopy = () => {
+    try {
+      navigator.clipboard.writeText(window.location.href);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setCopied(true);
+    }
   };
 
   if (error) return <p>{error}</p>;
@@ -188,7 +210,7 @@ const Room = () => {
 
   const usersContainer = (
     <div
-      onClick={handleCloseUserModal}
+      onClick={handleUserModal}
       className={`displayFlexColumn justifyContentCenter ${styles.overlay}`}
     >
       <div
@@ -203,12 +225,43 @@ const Room = () => {
           </div>
           {usersList()}
         </div>
-        <button className={`defaultButton`} onClick={handleCloseUserModal}>
+        <button className={`defaultButton`} onClick={handleUserModal}>
           Close
         </button>
       </div>
     </div>
   );
+
+  const shareContainer = (
+    <div
+      onClick={handleShareModal}
+      className={`displayFlexColumn justifyContentCenter ${styles.overlay}`}
+    >
+      <div
+        className={`displayFlexColumn justifyContentSpaceBetween alignSelfCenter ${styles.shareContainer}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={`alignSelfCenter fontWeightBold ${styles.shareTitle}`}>
+          Share
+        </div>
+        <div className={`${styles.copyUrl}`}>
+          <div>{window.location.href}</div>
+        </div>
+
+        {copied ? (
+          <div className={`${styles.copied}`}>Copied!</div>
+        ) : (
+          <button
+            className={`defaultButton ${styles.copyButton}`}
+            onClick={handleCopy}
+          >
+            Copy
+          </button>
+        )}
+      </div>
+    </div>
+  );
+
   const messageInput = (
     <div className={`displayFlexRow  ${styles.inputContainer}`}>
       <input
@@ -276,6 +329,12 @@ const Room = () => {
     >
       <div className={`fontWeightBold ${styles.title}`}>{roomName}</div>
       <div
+        className={`displayFlexRow alignItemsCenter`}
+        onClick={handleShareModal}
+      >
+        <img src={shareIcon} alt="" className={`${styles.shareIcon}`} />
+      </div>
+      <div
         className={`displayFlexRow gap10px ${styles.usersIcon}`}
         onClick={handleUserModal}
       >
@@ -297,6 +356,7 @@ const Room = () => {
       </div>
 
       {userModal ? usersContainer : null}
+      {shareModal ? shareContainer : null}
     </div>
   );
 };
