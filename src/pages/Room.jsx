@@ -91,7 +91,7 @@ const Room = () => {
   useEffect(() => {
     setTimeout(() => {
       jumpToBottom();
-    }, 0);
+    }, 100);
   }, [viewHeight]);
 
   //This effect will allow users to scroll up in chat without it jumping to bottom everytime a new message is sent
