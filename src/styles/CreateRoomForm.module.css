@@ -1,5 +1,5 @@
 .createRoomForm {
-  margin-top: 50px;
+  margin-top: calc(var(--varvh) * 0.05);
   height: 200px;
   max-height: 90%;
   background-color: white;
