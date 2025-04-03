@@ -4,7 +4,7 @@ import styles from '../styles/Nav.module.css';
 import { useState } from 'react';
 
 const Nav = () => {
-  const { user, logout, disconnected, location } = useAuth();
+  const { token, user, logout, disconnected, location } = useAuth();
   const navigate = useNavigate();
   const [userModal, setUserModal] = useState(false);
 
@@ -123,7 +123,7 @@ const Nav = () => {
       >
         Chizmiz
       </div>
-      {user ? userLoggedIn : userLoggedOut}
+      {token ? userLoggedIn : userLoggedOut}
       {userModal ? overlay : null}
       {userSidebar}
     </nav>

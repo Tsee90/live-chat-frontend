@@ -24,7 +24,10 @@ export const AuthProvider = ({ children }) => {
           logout();
           return;
         }
-        console.log(decoded);
+        if (!decoded.username) {
+          logout();
+          return;
+        }
         setUser(decoded);
         const newSocket = io(
           import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',
@@ -66,10 +69,6 @@ export const AuthProvider = ({ children }) => {
         getPosition();
 
         return () => {
-          if (user?.role === 'guest') {
-            localStorage.removeItem('token');
-            alert('token destroyed');
-          }
           newSocket.disconnect();
           newSocket.removeAllListeners();
         };

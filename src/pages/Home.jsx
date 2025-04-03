@@ -11,7 +11,7 @@ const Home = () => {
   const [rooms, setRooms] = useState([]);
   const [showModal, setShowModal] = useState(false); //Create form modal
   const navigate = useNavigate();
-  const { token, location, disconnected } = useAuth();
+  const { token, location, disconnected, user } = useAuth();
   const [miles, setMiles] = useState(5);
   const [radiusKm, setRadiusKm] = useState(5 * 1.609);
   const [loading, setLoading] = useState(true);
