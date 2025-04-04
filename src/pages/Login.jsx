@@ -83,6 +83,20 @@ const Login = () => {
         <div
           className={`displayFlexColumn alignItemsCenter ${styles.noAccount}`}
         >
+          <div>Forgot username or password?</div>
+
+          <div
+            onClick={() => {
+              navigate('/forgot');
+            }}
+            className={`themeColor fontWeightBold ${styles.signupLink}`}
+          >
+            Click here
+          </div>
+        </div>
+        <div
+          className={`displayFlexColumn alignItemsCenter ${styles.noAccount}`}
+        >
           <div>Don't have an account? </div>
           <div
             onClick={() => {

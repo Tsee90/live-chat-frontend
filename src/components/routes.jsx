@@ -5,6 +5,9 @@ import Room from '../pages/Room';
 import Signup from '../pages/Signup';
 import VerifyEmail from '../pages/VerifyEmail';
 import Dashboard from '../pages/Dashboard';
+import PasswordResetRequest from '../pages/PasswordResetRequest';
+import Forgot from '../pages/Forgot';
+import PasswordReset from '../pages/PasswordReset';
 
 const routes = [
   {
@@ -17,6 +20,15 @@ const routes = [
       { path: '/signup', element: <Signup></Signup> },
       { path: '/verify-email/', element: <VerifyEmail></VerifyEmail> },
       { path: '/dashboard', element: <Dashboard></Dashboard> },
+      {
+        path: '/password-reset',
+        element: <PasswordResetRequest></PasswordResetRequest>,
+      },
+      { path: '/forgot', element: <Forgot></Forgot> },
+      {
+        path: '/password-reset/:code',
+        element: <PasswordReset></PasswordReset>,
+      },
     ],
   },
 ];
