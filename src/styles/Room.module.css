@@ -77,6 +77,7 @@
 
 .inputContainer {
   position: sticky;
+  height: 6%;
 }
 
 .input {
@@ -91,7 +92,7 @@
   border: 1px solid var(--theme-color);
 }
 .sendButton {
-  padding: 0px 5px;
+  padding: 0px 15px;
   background-color: var(--theme-color);
   color: white;
   transition: 0.5s;

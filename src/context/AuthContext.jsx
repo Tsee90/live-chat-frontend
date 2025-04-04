@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem('token'));
   const [user, setUser] = useState(null);
   const [socket, setSocket] = useState(null);
-  const [disconnected, setDisconnected] = useState(true);
+  const [disconnected, setDisconnected] = useState(false);
   const [forcedLogout, setForcedLogout] = useState(false);
   const [location, setLocation] = useState(null);
   const [viewHeight, setViewHeight] = useState(window.visualViewport.height);
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
       setSocket(null);
       setUser(null);
     }
-  }, [token]);
+  }, [token, disconnected]);
 
   useEffect(() => {
     const handleResize = () => {
