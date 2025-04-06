@@ -96,7 +96,7 @@ const Nav = () => {
         <li
           onClick={() => {
             setUserModal(false);
-            navigate('/dashboard');
+            navigate(`/dashboard/${user?.username}`);
           }}
         >
           Dashboard

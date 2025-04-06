@@ -20,7 +20,7 @@ const routes = [
       { path: '/room/:roomId', element: <Room></Room> },
       { path: '/signup', element: <Signup></Signup> },
       { path: '/verify-email/', element: <VerifyEmail></VerifyEmail> },
-      { path: '/dashboard', element: <Dashboard></Dashboard> },
+      { path: '/dashboard/:username', element: <Dashboard></Dashboard> },
       {
         path: '/password-reset',
         element: <PasswordResetRequest></PasswordResetRequest>,

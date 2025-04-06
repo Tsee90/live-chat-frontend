@@ -36,24 +36,39 @@ export default function Signup() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    //Create errors if needed
-    if (!formData.username.trim()) newErrors.username = 'Username is required';
-    if (formData.username.trim().length > 15)
+    const usernameRegex =
+      /^(?=.{3,20}$)(?!.*[_.-]{2})[a-zA-Z0-9][a-zA-Z0-9_.-]*[a-zA-Z0-9]$/;
+
+    // Create errors if needed
+    if (!formData.username.trim()) {
+      newErrors.username = 'Username is required';
+    } else if (formData.username.trim().length > 15) {
       newErrors.username = 'Username cannot exceed 15 characters';
-    if (formData.username.trim().length < 3)
+    } else if (formData.username.trim().length < 3) {
       newErrors.username = 'Username must be at least 3 characters';
-    if (!emailRegex.test(formData.email)) newErrors.email = 'Invalid email';
-    if (formData.email.trim().length > 254)
+    } else if (!usernameRegex.test(formData.username.trim())) {
+      newErrors.username =
+        'Username can only contain letters, numbers, -, _, ., cannot start or end with special characters, or have double special characters';
+    }
+
+    if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Invalid email';
+    } else if (formData.email.trim().length > 254) {
       newErrors.email = 'Email exceeds character limit';
-    if (formData.email.trim().length < 6)
+    } else if (formData.email.trim().length < 6) {
       newErrors.email = 'Email must be at least 6 characters';
-    if (!passwordRegex.test(formData.password))
+    }
+
+    if (!passwordRegex.test(formData.password)) {
       newErrors.password =
         'Password must be at least 8 characters, include one uppercase letter, one number, and one special character';
-    if (formData.password.trim().length > 128)
+    } else if (formData.password.trim().length > 128) {
       newErrors.password = 'Password exceeds character limit';
-    if (formData.password !== formData.confirmPassword)
+    }
+
+    if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
+    }
 
     return newErrors;
   };
