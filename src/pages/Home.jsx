@@ -11,7 +11,7 @@ const Home = () => {
   const [rooms, setRooms] = useState([]);
   const [showModal, setShowModal] = useState(false); //Create form modal
   const navigate = useNavigate();
-  const { token, location, disconnected, user } = useAuth();
+  const { token, location, disconnected } = useAuth();
   const [miles, setMiles] = useState(5);
   const [radiusKm, setRadiusKm] = useState(5 * 1.609);
   const [loading, setLoading] = useState(true);
@@ -26,21 +26,22 @@ const Home = () => {
     }
 
     const fetchNearbyRooms = async () => {
-      try {
-        const { latitude, longitude } = location;
+      if (location)
+        try {
+          const { latitude, longitude } = location;
 
-        const { data } = await API.get('/rooms', {
-          params: { latitude, longitude, radiusKm, sort },
-          headers: { Authorization: `Bearer ${token}` },
-        });
+          const { data } = await API.get('/rooms', {
+            params: { latitude, longitude, radiusKm, sort },
+            headers: { Authorization: `Bearer ${token}` },
+          });
 
-        setRooms(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-        setIsRefreshing(false);
-      }
+          setRooms(data);
+        } catch {
+          console.log('An unexpected error occured');
+        } finally {
+          setLoading(false);
+          setIsRefreshing(false);
+        }
     };
 
     fetchNearbyRooms();

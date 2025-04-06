@@ -143,7 +143,7 @@ const Room = () => {
 
   //focus on input
   const handleFocus = () => {
-    if (inputRef) inputRef.current.focus();
+    if (inputRef.current) inputRef.current.focus();
   };
 
   const handleUserModal = () => {
@@ -166,8 +166,8 @@ const Room = () => {
   const handleCopy = () => {
     try {
       navigator.clipboard.writeText(window.location.href);
-    } catch (err) {
-      console.log(err);
+    } catch {
+      console.log('A copy error has occurred');
     } finally {
       setCopied(true);
     }
