@@ -321,21 +321,27 @@ const Room = () => {
       className={`displayFlexRow justifyContentSpaceBetween alignItemsCenter gap10px ${styles.titleContainer}`}
     >
       <div className={`fontWeightBold ${styles.title}`}>{roomName}</div>
-      <div
-        className={`displayFlexRow alignItemsCenter`}
-        onClick={handleShareModal}
-      >
-        <img src={shareIcon} alt="" className={`${styles.shareIcon}`} />
+      <div className={`displayFlexRow ${styles.iconContainer}`}>
+        <div
+          className={`displayFlexRow alignItemsCenter`}
+          onClick={handleShareModal}
+        >
+          <img src={shareIcon} alt="" className={`${styles.shareIcon}`} />
+        </div>
+        <div
+          className={`displayFlexRow gap10px ${styles.usersIcon}`}
+          onClick={handleUserModal}
+        >
+          <img
+            src={peopleIcon}
+            alt="people"
+            className={`${styles.iconPeople}`}
+          />
+        </div>
+        <button onClick={handleLeaveRoom} className={` ${styles.leaveButton}`}>
+          <img src={backIcon} alt="" className={`${styles.iconBack}`} />
+        </button>
       </div>
-      <div
-        className={`displayFlexRow gap10px ${styles.usersIcon}`}
-        onClick={handleUserModal}
-      >
-        <img src={peopleIcon} alt="people" className={`${styles.iconPeople}`} />
-      </div>
-      <button onClick={handleLeaveRoom} className={` ${styles.leaveButton}`}>
-        <img src={backIcon} alt="" className={`${styles.iconBack}`} />
-      </button>
     </div>
   );
 

@@ -119,8 +119,8 @@ export const AuthProvider = ({ children }) => {
       try {
         socket.disconnect();
         await API.delete(`users/${user.id}`);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        console.log('An unexpected error occurred');
       }
     }
     localStorage.removeItem('token');

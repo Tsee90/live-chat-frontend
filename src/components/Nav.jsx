@@ -8,9 +8,9 @@ const Nav = () => {
   const navigate = useNavigate();
   const [userModal, setUserModal] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setUserModal(false);
-    logout();
+    await logout();
     navigate('/login');
   };
   const userLoggedIn = (
