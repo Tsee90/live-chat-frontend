@@ -8,6 +8,7 @@ import Dashboard from '../pages/Dashboard';
 import PasswordResetRequest from '../pages/PasswordResetRequest';
 import Forgot from '../pages/Forgot';
 import PasswordReset from '../pages/PasswordReset';
+import GetUsername from '../pages/GetUsername';
 
 const routes = [
   {
@@ -28,6 +29,10 @@ const routes = [
       {
         path: '/password-reset/:code',
         element: <PasswordReset></PasswordReset>,
+      },
+      {
+        path: '/username',
+        element: <GetUsername></GetUsername>,
       },
     ],
   },

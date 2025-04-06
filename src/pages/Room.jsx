@@ -143,7 +143,7 @@ const Room = () => {
 
   //focus on input
   const handleFocus = () => {
-    inputRef.current.focus();
+    if (inputRef) inputRef.current.focus();
   };
 
   const handleUserModal = () => {

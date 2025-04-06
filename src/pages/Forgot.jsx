@@ -5,7 +5,13 @@ const Forgot = () => {
   return (
     <div>
       <div>Please select an option</div>
-      <div>I forgot my username</div>
+      <div
+        onClick={() => {
+          navigate('/retrieve-username');
+        }}
+      >
+        I forgot my username
+      </div>
       <div
         onClick={() => {
           navigate('/password-reset');

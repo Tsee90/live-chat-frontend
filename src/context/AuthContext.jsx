@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const decoded = jwtDecode(token);
         //Check if token is expired
+
         if (decoded.exp * 1000 < Date.now()) {
           logout();
           return;
@@ -114,7 +115,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    if (user.role === 'guest') {
+    if (user?.role === 'guest') {
       try {
         socket.disconnect();
         await API.delete(`users/${user.id}`);

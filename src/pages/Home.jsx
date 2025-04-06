@@ -35,11 +35,8 @@ const Home = () => {
         });
 
         setRooms(data);
-      } catch (err) {
-        console.error(
-          'Failed to fetch nearby rooms:',
-          err.response?.data?.error
-        );
+      } catch (error) {
+        console.log(error);
       } finally {
         setLoading(false);
         setIsRefreshing(false);
