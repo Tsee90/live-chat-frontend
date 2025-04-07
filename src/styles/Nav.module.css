@@ -6,6 +6,12 @@
   position: relative;
 }
 
+.iconContainer {
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
 .overlay {
   height: 100vh;
   width: 100vw;
@@ -33,11 +39,20 @@
   flex-direction: column;
 }
 
+.sidebarIcon {
+  height: 100px;
+  width: 100px;
+  margin-top: 25px;
+  align-self: center;
+}
+
 .sidebarTitle {
   align-self: center;
   font-size: 32px;
   font-weight: bold;
-  margin-top: 25px;
+
+  font-family: 'Delius Swash Caps', sans-serif;
+  color: var(--theme-color);
 }
 
 .overlay.active {
@@ -87,12 +102,7 @@ li:hover {
 .network {
   align-self: center;
   font-size: 15px;
-  color: rgb(95, 94, 94);
-}
-
-.username:hover {
-  cursor: pointer;
-  text-decoration: underline;
+  color: var(--theme-dark-gray);
 }
 
 .online {
@@ -104,7 +114,7 @@ li:hover {
 }
 
 .noLocation {
-  color: rgb(226, 226, 24);
+  color: rgb(145, 145, 7);
 }
 
 .userLoggedOut {
@@ -144,4 +154,8 @@ li:hover {
 
 .userLoggedIn {
   padding-right: 10px;
+}
+
+.userLoggedIn:hover {
+  cursor: pointer;
 }

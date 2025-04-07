@@ -1,0 +1,14 @@
+.statusIndicator {
+  display: flex;
+}
+.online {
+  color: green;
+}
+
+.offline {
+  color: red;
+}
+
+.noLocation {
+  color: rgb(145, 145, 0);
+}

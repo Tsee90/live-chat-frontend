@@ -1,3 +1,12 @@
+.verifyEmailForm {
+  margin-top: 25px;
+}
+
+.verifyTitle {
+  font-family: 'Delius Swash Caps', sans-serif;
+  color: var(--theme-color);
+}
+
 .verifyButton {
   width: 150px;
   color: white;
@@ -21,4 +30,11 @@
 
 .verifiedTitle {
   margin-top: 50px;
+  text-align: center;
+  font-family: 'Delius Swash Caps', sans-serif;
+  color: var(--theme-color);
+}
+
+.codeText {
+  text-align: center;
 }

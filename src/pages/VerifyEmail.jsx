@@ -86,18 +86,18 @@ const VerifyEmail = () => {
     );
 
   return (
-    <div
-      className={`defaultMainContainer displayFlexColumn alignItemsCenter justifyContentCenter`}
-    >
+    <div className={`defaultMainContainer displayFlexColumn alignItemsCenter `}>
       <form
         onSubmit={handleSubmit}
-        className={`defaultForm displayFlexColumn gap10px justifyContentSpaceAround alignItemsCenter ${styles.verifyEmailForm}`}
+        className={`displayFlexColumn gap10px justifyContentSpaceAround alignItemsCenter ${styles.verifyEmailForm}`}
       >
-        <div className={`fontSize30px fontWeightBold textAlignCenter`}>
+        <div
+          className={`fontSize30px fontWeightBold textAlignCenter ${styles.verifyTitle}`}
+        >
           Verify Your Email
         </div>
         <div
-          className={`displayFlexColumn justifyContentCenter alignItemsCenter`}
+          className={`displayFlexColumn justifyContentCenter alignItemsCenter ${styles.codeText}`}
         >
           Enter the 6-digit code sent to:{' '}
           <div>

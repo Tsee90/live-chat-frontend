@@ -3,7 +3,7 @@ import { useState } from 'react';
 const PasswordResetRequest = () => {
   const [email, setEmail] = useState();
   const handlePasswordReset = async () => {
-    API.post(`/users/password-reset`, { email });
+    API.post(`/users/password-reset`, { email, token: null });
   };
   return (
     <div>

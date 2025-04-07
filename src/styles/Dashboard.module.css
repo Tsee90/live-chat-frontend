@@ -1,0 +1,30 @@
+.title {
+  font-size: 30px;
+  color: var(--theme-color);
+  font-family: 'Delius Swash Caps', sans-serif;
+  align-self: center;
+}
+
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+
+  flex-grow: 1;
+  padding: 0px 10px;
+}
+
+.userInfo {
+  align-self: center;
+  color: var(--theme-dark-gray);
+}
+
+.accountOptions {
+  margin-top: auto;
+}
+
+.iconContainer {
+  height: 100px;
+  width: 100px;
+  align-self: center;
+  margin-top: 25px;
+}

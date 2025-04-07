@@ -1,0 +1,12 @@
+.iconContainer {
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--theme-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  height: 100%;
+}

@@ -26,7 +26,7 @@ const Home = () => {
     }
 
     const fetchNearbyRooms = async () => {
-      if (location)
+      if (location) {
         try {
           const { latitude, longitude } = location;
 
@@ -42,6 +42,9 @@ const Home = () => {
           setLoading(false);
           setIsRefreshing(false);
         }
+      } else {
+        setLoading(false);
+      }
     };
 
     fetchNearbyRooms();

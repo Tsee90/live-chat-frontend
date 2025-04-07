@@ -2,9 +2,11 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Nav.module.css';
 import { useState } from 'react';
+import NetworkStatus from './NetworkStatus';
+import ProfileIcon from './ProfileIcon';
 
 const Nav = () => {
-  const { token, user, logout, disconnected, location } = useAuth();
+  const { token, user, logout } = useAuth();
   const navigate = useNavigate();
   const [userModal, setUserModal] = useState(false);
 
@@ -15,16 +17,15 @@ const Nav = () => {
   };
   const userLoggedIn = (
     <div
-      className={` displayFlexRow alignItemsCenter gap10px ${styles.userLoggedIn}`}
+      className={` displayFlexRow alignItemsCenter  gap10px ${styles.userLoggedIn}`}
+      onClick={() => {
+        setUserModal(true);
+      }}
     >
-      <div
-        onClick={() => {
-          setUserModal(true);
-        }}
-        className={`${styles.username}`}
-      >
-        {user?.username}
+      <div className={`${styles.iconContainer}`}>
+        <ProfileIcon></ProfileIcon>
       </div>
+      <div className={`${styles.username}`}>{user?.username}</div>
     </div>
   );
   const userLoggedOut = (
@@ -63,26 +64,12 @@ const Nav = () => {
         userModal ? styles.active : null
       }`}
     >
+      <div className={`${styles.sidebarIcon}`}>
+        <ProfileIcon></ProfileIcon>
+      </div>
       <div className={`${styles.sidebarTitle}`}>{user?.username}</div>
-      <div
-        className={`displayFlexRow alignItemsCenter gap10px ${styles.network}`}
-      >
-        Status:{' '}
-        <div
-          className={` ${styles.statusIndicator} ${
-            disconnected
-              ? styles.offline
-              : !location
-              ? styles.noLocation
-              : styles.online
-          }`}
-        >
-          {disconnected
-            ? 'Disconnected'
-            : !location
-            ? 'No Location'
-            : 'Connected'}
-        </div>
+      <div className={`${styles.network}`}>
+        <NetworkStatus></NetworkStatus>
       </div>
       <ul className={`${styles.sidebarList}`}>
         <li

@@ -8,10 +8,10 @@
 }
 
 select {
-  color: gray;
+  color: var(--theme-dark-gray);
   border: none;
   background: none;
-  box-shadow: none !important;
+
   font-family: sans-serif;
   font-size: 14px;
 }
@@ -25,12 +25,12 @@ select:hover {
 
 .milesText {
   font-size: 14px;
-  color: gray;
+  color: var(--theme-dark-gray);
 }
 
 .createButton {
   background: none;
-  color: gray;
+  color: var(--theme-dark-gray);
   height: 30px;
   display: flex;
 
@@ -71,13 +71,13 @@ select:hover {
 
 .nothing {
   padding: 100px 20px;
-  color: rgb(163, 163, 163);
+  color: var(--theme-light-gray);
   text-align: center;
 }
 
 .createError {
   margin-top: 50px;
-  color: rgb(90, 90, 90);
+  color: var(--theme-dark-gray);
   text-align: center;
   background-color: white;
   height: 200px;

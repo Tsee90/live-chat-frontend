@@ -117,7 +117,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     if (user?.role === 'guest') {
       try {
-        socket.disconnect();
+        await socket.disconnect();
         await API.delete(`users/${user.id}`);
       } catch {
         console.log('An unexpected error occurred');
