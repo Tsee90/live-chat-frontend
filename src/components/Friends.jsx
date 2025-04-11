@@ -153,7 +153,7 @@ const Friends = ({ onClick }) => {
                     onClick?.();
                     navigate(`/dashboard/${fren.sender.username}`);
                   }}
-                  className={`${styles.username}`}
+                  className={`${styles.username} ${styles.pending}`}
                 >
                   {fren.sender.username}
                 </div>
@@ -191,7 +191,7 @@ const Friends = ({ onClick }) => {
                     onClick?.();
                     navigate(`/dashboard/${fren.receiver.username}`);
                   }}
-                  className={`${styles.username}`}
+                  className={`${styles.username} ${styles.pending}`}
                 >
                   {fren.receiver.username}
                 </div>

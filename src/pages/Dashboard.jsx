@@ -176,7 +176,7 @@ const Dashboard = () => {
         {isFriends ? (
           <CancelFriendButton
             friendId={userData?.id}
-            buttonName={'Remove Friend'}
+            buttonName={'Unfriend'}
             onClick={() => {
               setRequestLoading(true);
             }}
@@ -191,8 +191,8 @@ const Dashboard = () => {
         ) : (
           <div>
             {isPending.senderId == user.id ? (
-              <div>
-                <div>Request Sent</div>
+              <div className={`displayFlexRow gap10px`}>
+                <div>Friend Request Sent</div>
                 <CancelFriendButton
                   friendId={userData?.id}
                   buttonName={<img src={cancelIcon}></img>}
@@ -202,21 +202,23 @@ const Dashboard = () => {
                 />
               </div>
             ) : (
-              <div>
-                <div>Friend Requested</div>
-                <AcceptFriendButton
-                  senderId={isPending.senderId}
-                  onClick={() => {
-                    setRequestLoading(true);
-                  }}
-                ></AcceptFriendButton>
-                <CancelFriendButton
-                  friendId={userData?.id}
-                  buttonName={<img src={cancelIcon}></img>}
-                  onClick={() => {
-                    setRequestLoading(true);
-                  }}
-                />
+              <div className={`displayFlexRow gap10px`}>
+                <div>Requested Friendship</div>
+                <div className={`displayFlexRow gap10px`}>
+                  <AcceptFriendButton
+                    senderId={isPending.senderId}
+                    onClick={() => {
+                      setRequestLoading(true);
+                    }}
+                  ></AcceptFriendButton>
+                  <CancelFriendButton
+                    friendId={userData?.id}
+                    buttonName={<img src={cancelIcon}></img>}
+                    onClick={() => {
+                      setRequestLoading(true);
+                    }}
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -235,7 +237,7 @@ const Dashboard = () => {
         {userData?.username}
       </div>
 
-      {isSelf ? self : other}
+      <div className={`${styles.request}`}>{isSelf ? self : other}</div>
     </>
   );
 

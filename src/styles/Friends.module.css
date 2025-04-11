@@ -54,6 +54,10 @@
   color: var(--theme-light-gray);
 }
 
+.pending {
+  color: var(--theme-dark-gray);
+}
+
 .joinIcon {
   display: flex;
   align-items: center;

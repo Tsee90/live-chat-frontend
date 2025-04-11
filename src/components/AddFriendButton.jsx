@@ -2,6 +2,7 @@ import API from '../api';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import styles from '../styles/AddFriendButton.module.css';
 
 const AddFriendButton = ({ receiverId, onClick }) => {
   const [isRequested, setIsRequested] = useState(false);
@@ -34,7 +35,11 @@ const AddFriendButton = ({ receiverId, onClick }) => {
     }
   };
   return (
-    <button onClick={handleAddFriend} disabled={isRequested}>
+    <button
+      onClick={handleAddFriend}
+      disabled={isRequested}
+      className={`${styles.button}`}
+    >
       Add Friend
     </button>
   );
