@@ -5,6 +5,9 @@ import API from '../api';
 import styles from '../styles/Dashboard.module.css';
 import NetworkStatus from '../components/NetworkStatus';
 import ProfileIcon from '../components/ProfileIcon';
+import AddFriendButton from '../components/AddFriendButton';
+import Friends from '../components/Friends';
+import CancelFriendButton from '../components/CancelFriendButton';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -14,6 +17,8 @@ const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [isSelf, setIsSelf] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
+  const [isFriends, setIsFriends] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -32,12 +37,20 @@ const Dashboard = () => {
           setUserData(res.data.user);
 
           if (res.data.user.role === 'guest') setIsGuest(true);
-          if (user?.username === res.data.user.username) setIsSelf(true);
+          if (user?.username === res.data.user.username) {
+            setIsSelf(true);
+          } else {
+            const check = await API.get(
+              `/friends/is-friend/${res.data.user.id}`
+            );
+
+            setIsFriends(check.data.areFriends);
+          }
         } else {
           return;
         }
-      } catch {
-        console.error('Failed to fetch user');
+      } catch (error) {
+        console.error('Failed to fetch user', error);
       } finally {
         setLoading(false);
       }
@@ -89,8 +102,39 @@ const Dashboard = () => {
       </div>
     </div>
   );
-
-  const other = <div>Other stuff</div>;
+  404;
+  const other = (
+    <div>
+      {isFriends ? (
+        <CancelFriendButton
+          friendId={userData?.id}
+          buttonName={'Remove Friend'}
+          onClick={() => {
+            setIsFriends(false);
+            setIsPending(false);
+          }}
+        ></CancelFriendButton>
+      ) : !isPending ? (
+        <AddFriendButton
+          receiverId={userData?.id}
+          onClick={() => {
+            setIsPending(true);
+          }}
+        />
+      ) : (
+        <div>
+          <div>Request Sent</div>
+          <CancelFriendButton
+            friendId={userData?.id}
+            buttonName={'Cancel'}
+            onClick={() => {
+              setIsPending(false);
+            }}
+          ></CancelFriendButton>
+        </div>
+      )}
+    </div>
+  );
 
   const invalidUser = <div>Invalid user</div>;
 
@@ -102,6 +146,7 @@ const Dashboard = () => {
       <div className={`displayFlexRow gap10px ${styles.title}`}>
         {userData?.username}
       </div>
+
       {isSelf ? self : other}
     </>
   );

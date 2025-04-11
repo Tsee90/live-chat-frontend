@@ -4,11 +4,13 @@ import styles from '../styles/Nav.module.css';
 import { useState } from 'react';
 import NetworkStatus from './NetworkStatus';
 import ProfileIcon from './ProfileIcon';
+import Friends from './Friends';
 
 const Nav = () => {
   const { token, user, logout } = useAuth();
   const navigate = useNavigate();
   const [userModal, setUserModal] = useState(false);
+  const [friendsModal, setFriendsModal] = useState(false);
 
   const handleLogout = async () => {
     setUserModal(false);
@@ -52,8 +54,11 @@ const Nav = () => {
     <div
       onClick={() => {
         setUserModal(false);
+        setFriendsModal(false);
       }}
-      className={`${styles.overlay} ${userModal ? styles.active : null}`}
+      className={`${styles.overlay} ${
+        userModal || friendsModal ? styles.active : null
+      }`}
     ></div>
   );
 
@@ -88,13 +93,36 @@ const Nav = () => {
         >
           Dashboard
         </li>
-        <li>Friends</li>
+        <li
+          onClick={() => {
+            setFriendsModal(true);
+          }}
+        >
+          Friends
+        </li>
         <li>
           <button className={`${styles.logOutButton}`} onClick={handleLogout}>
             Log Out
           </button>
         </li>
       </ul>
+    </div>
+  );
+
+  const friendsSidebar = (
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className={`displayFlexColumn ${styles.sidebar} ${
+        friendsModal ? styles.active : null
+      }`}
+    >
+      <div className={`${styles.sidebarTitle}`}>Friends</div>
+      <Friends
+        onClick={() => {
+          setFriendsModal(false);
+          setUserModal(false);
+        }}
+      ></Friends>
     </div>
   );
 
@@ -113,6 +141,7 @@ const Nav = () => {
       {token ? userLoggedIn : userLoggedOut}
       {userModal ? overlay : null}
       {userSidebar}
+      {friendsSidebar}
     </nav>
   );
 };

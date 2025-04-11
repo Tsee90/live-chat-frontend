@@ -28,7 +28,10 @@ const Room = () => {
 
   useEffect(() => {
     //Exit if not logged in or no socket connection
-    if (!token || !socket) navigate('/login');
+    if (!token) {
+      navigate('/login');
+    }
+    if (!socket) return;
 
     const fetchRoom = async () => {
       try {
