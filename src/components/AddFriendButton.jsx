@@ -22,13 +22,13 @@ const AddFriendButton = ({ receiverId, onClick }) => {
   }, [receiverId]);
   const handleAddFriend = async (e) => {
     e.preventDefault();
+    await onClick?.();
     try {
       await API.post('/friends/request', { receiverId });
       socket.emit('friend_update', {
         userId: user.id,
         targetUserId: receiverId,
       });
-      await onClick?.();
     } catch (error) {
       console.log(error);
     }

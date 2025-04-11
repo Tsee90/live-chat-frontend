@@ -7,6 +7,7 @@ import CancelFriendButton from './CancelFriendButton';
 import joinIcon from '../assets/join.svg';
 import PropTypes from 'prop-types';
 import styles from '../styles/Friends.module.css';
+import cancelIcon from '../assets/cancel.svg';
 
 const Friends = ({ onClick }) => {
   const navigate = useNavigate();
@@ -68,12 +69,12 @@ const Friends = ({ onClick }) => {
   const onlineFriends = allFriendsList.filter((friend) => friend.online);
 
   const onlineFriendsList = (
-    <div>
+    <div className={`${styles.listContainer}`}>
       <div className={`${styles.headerWrapper}`}>
         <div>Online</div>
         {onlineFriends.length > 0 ? <div>({onlineFriends.length})</div> : null}
       </div>
-      <ul>
+      <ul className={`${styles.list}`}>
         {onlineFriends.map((friend) => {
           return (
             <li key={friend.id} className={`${styles.friendListItem}`}>
@@ -82,8 +83,9 @@ const Friends = ({ onClick }) => {
                   onClick?.();
                   navigate(`/dashboard/${friend.username}`);
                 }}
+                className={`${styles.username}`}
               >
-                <div className={`${styles.username}`}>{friend.username}</div>
+                {friend.username}
               </div>
               {friend.roomId ? (
                 <div
@@ -106,39 +108,64 @@ const Friends = ({ onClick }) => {
   const offlineFriends = allFriendsList.filter((friend) => !friend.online);
 
   const offlineFriendsList = (
-    <div>
+    <div className={`${styles.listContainer}`}>
       <div className={`${styles.headerWrapper}`}>
         <div>Offline</div>
         {offlineFriends.length > 0 ? (
           <div>({offlineFriends.length})</div>
         ) : null}
       </div>
-      <ul>
+      <ul className={`${styles.list}`}>
         {offlineFriends.map((friend) => {
-          return <li key={friend.id}>{friend.username}</li>;
+          return (
+            <li key={friend.id}>
+              <div
+                onClick={() => {
+                  onClick?.();
+                  navigate(`/dashboard/${friend.username}`);
+                }}
+                className={`${styles.username} ${styles.offline}`}
+              >
+                {friend.username}
+              </div>
+            </li>
+          );
         })}
       </ul>
     </div>
   );
 
   const receivedList = (
-    <div>
+    <div className={`${styles.listContainer}`}>
       <div className={`${styles.headerWrapper}`}>
         <div>Received</div>
         {received.length > 0 ? <div>({received.length})</div> : null}
       </div>
-      <ul>
+      <ul className={`${styles.list}`}>
         {received.length !== 0
           ? received.map((fren) => (
-              <li key={fren.sender.id}>
-                {fren.sender.username}
-                <AcceptFriendButton
-                  senderId={fren.sender.id}
-                ></AcceptFriendButton>
-                <CancelFriendButton
-                  friendId={fren.sender.id}
-                  buttonName={'Decline'}
-                ></CancelFriendButton>
+              <li
+                key={fren.sender.id}
+                className={`displayFlexRow justifyContentSpaceBetween ${styles.receivedListItem}`}
+              >
+                <div
+                  onClick={() => {
+                    onClick?.();
+                    navigate(`/dashboard/${fren.sender.username}`);
+                  }}
+                  className={`${styles.username}`}
+                >
+                  {fren.sender.username}
+                </div>
+                <div className={`displayFlexRow gap10px`}>
+                  <AcceptFriendButton
+                    senderId={fren.sender.id}
+                  ></AcceptFriendButton>
+                  <CancelFriendButton
+                    friendId={fren.sender.id}
+                    buttonName={<img src={cancelIcon}></img>}
+                  ></CancelFriendButton>
+                </div>
               </li>
             ))
           : null}
@@ -147,20 +174,31 @@ const Friends = ({ onClick }) => {
   );
 
   const sentList = (
-    <div>
+    <div className={`${styles.listContainer}`}>
       <div className={`${styles.headerWrapper}`}>
         <div>Sent</div>
         {sent.length > 0 ? <div>({sent.length})</div> : null}
       </div>
-      <ul>
+      <ul className={`${styles.list}`}>
         {sent.length !== 0
           ? sent.map((fren) => (
-              <li key={fren.receiver.id}>
-                {fren.receiver.username}
+              <li
+                key={fren.receiver.id}
+                className={`displayFlexRow justifyContentSpaceBetween ${styles.receivedListItem}`}
+              >
+                <div
+                  onClick={() => {
+                    onClick?.();
+                    navigate(`/dashboard/${fren.receiver.username}`);
+                  }}
+                  className={`${styles.username}`}
+                >
+                  {fren.receiver.username}
+                </div>
 
                 <CancelFriendButton
                   friendId={fren.receiver.id}
-                  buttonName={'Cancel'}
+                  buttonName={<img src={cancelIcon}></img>}
                 ></CancelFriendButton>
               </li>
             ))

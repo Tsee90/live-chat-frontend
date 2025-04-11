@@ -8,25 +8,32 @@ import ProfileIcon from '../components/ProfileIcon';
 import AddFriendButton from '../components/AddFriendButton';
 import Friends from '../components/Friends';
 import CancelFriendButton from '../components/CancelFriendButton';
+import AcceptFriendButton from '../components/AcceptFriendButton';
+import cancelIcon from '../assets/cancel.svg';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { token, user, logout } = useAuth();
+  const { token, user, logout, socket } = useAuth();
   const { username } = useParams();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [isSelf, setIsSelf] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
   const [isFriends, setIsFriends] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const [updated, setUpdated] = useState(false);
+  const [requestLoading, setRequestLoading] = useState(true);
+  const [showSpinner, setShowSpinner] = useState(false);
+  const [invalid, setInvalid] = useState(false);
+  const [showRequestSpinner, setShowRequestSpinner] = useState(false);
 
   useEffect(() => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    if (!socket) return;
     const fetchUser = async () => {
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-
       try {
         if (!token || !user || !username) return;
         if (username) {
@@ -34,17 +41,15 @@ const Dashboard = () => {
           const res = await API.get(`/users/username/${username}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
-          setUserData(res.data.user);
+          if (res.data.user) {
+            setUserData(res.data.user);
+          } else {
+            setInvalid(true);
+          }
 
           if (res.data.user.role === 'guest') setIsGuest(true);
           if (user?.username === res.data.user.username) {
             setIsSelf(true);
-          } else {
-            const check = await API.get(
-              `/friends/is-friend/${res.data.user.id}`
-            );
-
-            setIsFriends(check.data.areFriends);
           }
         } else {
           return;
@@ -56,7 +61,67 @@ const Dashboard = () => {
       }
     };
     fetchUser();
+    const handleFriendUpdate = () => {
+      setUpdated(true);
+    };
+
+    socket.on('friend_updated', handleFriendUpdate);
+    return () => {
+      socket.off('friend_updated', handleFriendUpdate);
+    };
   }, [navigate, username, token, user]);
+
+  useEffect(() => {
+    if (!userData) return;
+
+    const fetchFriendStatus = async () => {
+      try {
+        const checkFriends = await API.get(
+          `/friends/is-friend/${userData?.id}`
+        );
+        setIsFriends(checkFriends.data.areFriends);
+
+        if (!checkFriends.data.areFriends) {
+          const checkPending = await API.get(
+            `/friends/is-pending/${userData?.id}`
+          );
+          console.log(checkPending.data.arePending);
+          setIsPending(checkPending.data.arePending);
+        }
+      } catch {
+        console.log('An unexpected error occurred');
+      } finally {
+        setUpdated(false);
+        setRequestLoading(false);
+      }
+    };
+
+    fetchFriendStatus();
+  }, [userData, updated]);
+
+  useEffect(() => {
+    let timer;
+    if (loading) {
+      timer = setTimeout(() => {
+        setShowSpinner(true);
+      }, 300);
+    } else {
+      setShowSpinner(false);
+    }
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  useEffect(() => {
+    let timer;
+    if (requestLoading) {
+      timer = setTimeout(() => {
+        setShowRequestSpinner(true);
+      }, 300);
+    } else {
+      setShowRequestSpinner(false);
+    }
+    return () => clearTimeout(timer);
+  }, [requestLoading]);
 
   const handleReset = async () => {
     try {
@@ -102,39 +167,62 @@ const Dashboard = () => {
       </div>
     </div>
   );
-  404;
-  const other = (
-    <div>
-      {isFriends ? (
-        <CancelFriendButton
-          friendId={userData?.id}
-          buttonName={'Remove Friend'}
-          onClick={() => {
-            setIsFriends(false);
-            setIsPending(false);
-          }}
-        ></CancelFriendButton>
-      ) : !isPending ? (
-        <AddFriendButton
-          receiverId={userData?.id}
-          onClick={() => {
-            setIsPending(true);
-          }}
-        />
-      ) : (
-        <div>
-          <div>Request Sent</div>
+
+  const other =
+    requestLoading && showRequestSpinner ? (
+      <div className={`defaultSpinner justifySelfCenter alignSelfCenter`}></div>
+    ) : (
+      <div>
+        {isFriends ? (
           <CancelFriendButton
             friendId={userData?.id}
-            buttonName={'Cancel'}
+            buttonName={'Remove Friend'}
             onClick={() => {
-              setIsPending(false);
+              setRequestLoading(true);
             }}
-          ></CancelFriendButton>
-        </div>
-      )}
-    </div>
-  );
+          />
+        ) : !isPending ? (
+          <AddFriendButton
+            receiverId={userData?.id}
+            onClick={() => {
+              setRequestLoading(true);
+            }}
+          />
+        ) : (
+          <div>
+            {isPending.senderId == user.id ? (
+              <div>
+                <div>Request Sent</div>
+                <CancelFriendButton
+                  friendId={userData?.id}
+                  buttonName={<img src={cancelIcon}></img>}
+                  onClick={() => {
+                    setRequestLoading(true);
+                  }}
+                />
+              </div>
+            ) : (
+              <div>
+                <div>Friend Requested</div>
+                <AcceptFriendButton
+                  senderId={isPending.senderId}
+                  onClick={() => {
+                    setRequestLoading(true);
+                  }}
+                ></AcceptFriendButton>
+                <CancelFriendButton
+                  friendId={userData?.id}
+                  buttonName={<img src={cancelIcon}></img>}
+                  onClick={() => {
+                    setRequestLoading(true);
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
 
   const invalidUser = <div>Invalid user</div>;
 
@@ -150,16 +238,18 @@ const Dashboard = () => {
       {isSelf ? self : other}
     </>
   );
-  if (!userData) return invalidUser;
+
   return (
     <div className={`defaultMainContainer gap10px ${styles.mainContainer}`}>
-      {loading ? (
+      {loading && showSpinner ? (
         <div
           className={`defaultSpinner justifySelfCenter alignSelfCenter`}
         ></div>
-      ) : (
+      ) : userData ? (
         dashboardLayout
-      )}
+      ) : invalid ? (
+        invalidUser
+      ) : null}
     </div>
   );
 };
