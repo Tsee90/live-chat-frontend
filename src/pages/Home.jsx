@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import styles from '../styles/Home.module.css';
 import refreshIcon from '../assets/refresh.svg';
 import Welcome from '../components/Welcome';
+import Footer from '../components/Footer';
 
 const Home = () => {
   const [rooms, setRooms] = useState([]);
@@ -29,7 +30,7 @@ const Home = () => {
       if (location) {
         try {
           const { latitude, longitude } = location;
-
+          roomList;
           const { data } = await API.get('/rooms', {
             params: { latitude, longitude, radiusKm, sort },
             headers: { Authorization: `Bearer ${token}` },
@@ -56,7 +57,7 @@ const Home = () => {
       const startsAt = new Date();
       const expiresAt = new Date(
         new Date().setHours(new Date().getHours() + 24)
-      ); //24 hours from now
+      ); //24 hours from n roomListow
       const { name } = formData;
       const { data } = await API.post(
         '/rooms',
@@ -288,6 +289,7 @@ const Home = () => {
           )}
         </div>
       )}
+      <Footer></Footer>
     </div>
   );
 };

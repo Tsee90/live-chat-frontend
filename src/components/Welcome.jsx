@@ -1,5 +1,6 @@
 import styles from '../styles/Welcome.module.css';
 import GuestLogin from './GuestLogin';
+import Footer from './Footer';
 
 const Welcome = () => {
   return (
@@ -10,15 +11,16 @@ const Welcome = () => {
         Chizmiz.live
       </div>
       <div className={`textAlignCenter ${styles.info}`}>
-        Welcome to Chizmiz.live, a location based chat app to find out the
-        current happenings in your area and beyond. Ask questions, chat about
-        local events as they happen, or just shoot the breeze! What are you
-        waiting for? Sign up now to start some chizmiz!
+        Welcome to Chizmiz.live, an anonymous, location based chat app to find
+        out the current happenings in your area and beyond. Ask questions, chat
+        about local events as they happen, or just shoot the breeze! What are
+        you waiting for? Sign up now to start some chizmiz!
       </div>
       <a href="/signup" className={`${styles.signup}`}>
         Sign Up
       </a>{' '}
       <GuestLogin></GuestLogin>
+      <Footer></Footer>
     </div>
   );
 };
