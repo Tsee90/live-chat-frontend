@@ -126,26 +126,30 @@ const Home = () => {
     return `${seconds} seconds ago`;
   };
 
+  const activeRooms = rooms.filter((room) => room.user_count > 0);
+
   const roomList = (
     <ul className={`displayFlexColumn ${styles.roomList}`}>
-      {rooms.map((room) => (
-        <li
-          key={room.id}
-          className={`${styles.roomListItem}`}
-          onClick={() => handleJoinRoom(room.id)}
-        >
-          <div className={`displayFlexColumn ${styles.itemTitle}`}>
-            <div className={`fontWeightBold`}>{room.name}</div>
-            <div className={`displayFlexColumn ${styles.itemFooter}`}>
-              <div>
-                Created by <strong>{room.creator_username}</strong>{' '}
-                {timePast(room.startsAt)}
+      {rooms.map((room) =>
+        room.user_count > 0 ? (
+          <li
+            key={room.id}
+            className={`${styles.roomListItem}`}
+            onClick={() => handleJoinRoom(room.id)}
+          >
+            <div className={`displayFlexColumn ${styles.itemTitle}`}>
+              <div className={`fontWeightBold`}>{room.name}</div>
+              <div className={`displayFlexColumn ${styles.itemFooter}`}>
+                <div>
+                  Created by <strong>{room.creator_username}</strong>{' '}
+                  {timePast(room.startsAt)}
+                </div>
+                <div>Connected: {room.user_count}</div>
               </div>
-              <div>Connected: {room.user_count}</div>
             </div>
-          </div>
-        </li>
-      ))}
+          </li>
+        ) : null
+      )}
     </ul>
   );
 
@@ -226,7 +230,7 @@ const Home = () => {
             No location detected. Please check to make sure location is allowed
             in browser.
           </div>
-        ) : rooms.length > 0 ? (
+        ) : rooms.length > 0 && activeRooms.length > 0 ? (
           roomList
         ) : (
           <div className={`${styles.nothing}`}>
