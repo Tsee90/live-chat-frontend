@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Signup.module.css';
 import { useAuth } from '../context/AuthContext';
 import GuestLogin from '../components/GuestLogin';
+import Footer from '../components/Footer';
 
 export default function Signup() {
   const { token } = useAuth();
@@ -200,6 +201,7 @@ export default function Signup() {
         ) : null}
       </form>
       <GuestLogin></GuestLogin>
+      <Footer></Footer>
     </div>
   );
 }

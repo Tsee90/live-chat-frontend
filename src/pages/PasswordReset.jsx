@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import API from '../api';
 import styles from '../styles/PasswordReset.module.css';
+import Footer from '../components/Footer';
 
 const PasswordReset = () => {
   const navigate = useNavigate();
@@ -106,6 +107,7 @@ const PasswordReset = () => {
             </p>
           ))
         : null}
+      <Footer></Footer>
     </div>
   );
 };

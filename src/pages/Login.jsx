@@ -4,6 +4,7 @@ import API from '../api';
 import { useAuth } from '../context/AuthContext';
 import styles from '../styles/Login.module.css';
 import GuestLogin from '../components/GuestLogin';
+import Footer from '../components/Footer';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -109,6 +110,7 @@ const Login = () => {
         </div>
       </form>
       <GuestLogin></GuestLogin>
+      <Footer></Footer>
     </div>
   );
 };

@@ -6,7 +6,6 @@ import { useAuth } from '../context/AuthContext';
 import styles from '../styles/Home.module.css';
 import refreshIcon from '../assets/refresh.svg';
 import Welcome from '../components/Welcome';
-import Footer from '../components/Footer';
 
 const Home = () => {
   const [rooms, setRooms] = useState([]);
@@ -289,7 +288,6 @@ const Home = () => {
           )}
         </div>
       )}
-      <Footer></Footer>
     </div>
   );
 };

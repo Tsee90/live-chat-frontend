@@ -1,6 +1,7 @@
 import API from '../api';
 import { useState } from 'react';
 import styles from '../styles/PasswordResetRequest.module.css';
+import Footer from '../components/Footer';
 const PasswordResetRequest = () => {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
@@ -48,6 +49,7 @@ const PasswordResetRequest = () => {
           </div>
         </form>
       )}
+      <Footer></Footer>
     </div>
   );
 };

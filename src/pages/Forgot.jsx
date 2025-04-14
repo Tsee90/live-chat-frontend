@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Forgot.module.css';
-
+import Footer from '../components/Footer';
 const Forgot = () => {
   const navigate = useNavigate();
   return (
@@ -24,6 +24,7 @@ const Forgot = () => {
       >
         I forgot my password
       </div>
+      <Footer></Footer>
     </div>
   );
 };

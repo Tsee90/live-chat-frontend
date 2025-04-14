@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
 import styles from '../styles/GetUsername.module.css';
+import Footer from '../components/Footer';
 
 const GetUsername = () => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ const GetUsername = () => {
         </form>
       )}
       {errors ? <div>{errors}</div> : null}
+      <Footer></Footer>
     </div>
   );
 };
