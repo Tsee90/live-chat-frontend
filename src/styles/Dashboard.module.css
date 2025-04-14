@@ -8,7 +8,7 @@
 .optionsContainer {
   display: flex;
   flex-direction: column;
-
+  align-self: center;
   flex-grow: 1;
   padding: 0px 10px;
 }
@@ -31,4 +31,16 @@
 
 .request {
   align-self: center;
+}
+
+.infoContainer {
+  flex-grow: 1;
+}
+
+.dashboardContainer {
+  height: 100%;
+}
+
+.deleteButton {
+  color: red;
 }

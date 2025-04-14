@@ -89,7 +89,7 @@ const Login = () => {
             onClick={() => {
               navigate('/forgot');
             }}
-            className={`themeColor fontWeightBold ${styles.signupLink}`}
+            className={`defaultLink themeColor fontWeightBold ${styles.signupLink}`}
           >
             Click here
           </div>
@@ -102,7 +102,7 @@ const Login = () => {
             onClick={() => {
               navigate('/signup');
             }}
-            className={`themeColor fontWeightBold ${styles.signupLink}`}
+            className={`defaultLink themeColor fontWeightBold ${styles.signupLink}`}
           >
             Sign Up Here
           </div>

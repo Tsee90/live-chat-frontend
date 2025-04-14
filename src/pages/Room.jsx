@@ -39,7 +39,7 @@ const Room = () => {
         const { data } = await API.get(`/rooms/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
+        console.log(data);
         const { messages, users, active, name } = data;
         setMessages(messages);
         setRoomName(name);

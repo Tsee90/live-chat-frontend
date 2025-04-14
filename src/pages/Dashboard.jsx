@@ -159,11 +159,19 @@ const Dashboard = () => {
           onClick={async () => {
             logout();
           }}
+          className={`defaultLink themeColor`}
         >
           Log out
         </div>
-        <div onClick={handleReset}>Reset Password</div>
-        <div onClick={handleDelete}>Delete Account</div>
+        <div onClick={handleReset} className={`defaultLink themeColor`}>
+          Reset Password
+        </div>
+        <div
+          onClick={handleDelete}
+          className={`defaultLink ${styles.deleteButton}`}
+        >
+          Delete Account
+        </div>
       </div>
     </div>
   );
@@ -172,7 +180,7 @@ const Dashboard = () => {
     requestLoading && showRequestSpinner ? (
       <div className={`defaultSpinner justifySelfCenter alignSelfCenter`}></div>
     ) : (
-      <div>
+      <div className={`${styles.request}`}>
         {isFriends ? (
           <CancelFriendButton
             friendId={userData?.id}
@@ -229,7 +237,7 @@ const Dashboard = () => {
   const invalidUser = <div>Invalid user</div>;
 
   const dashboardLayout = (
-    <>
+    <div className={`displayFlexColumn ${styles.dashboardContainer}`}>
       <div className={`${styles.iconContainer}`}>
         <ProfileIcon></ProfileIcon>
       </div>
@@ -237,8 +245,10 @@ const Dashboard = () => {
         {userData?.username}
       </div>
 
-      <div className={`${styles.request}`}>{isSelf ? self : other}</div>
-    </>
+      <div className={`displayFlexColumn ${styles.infoContainer}`}>
+        {isSelf ? self : other}
+      </div>
+    </div>
   );
 
   return (

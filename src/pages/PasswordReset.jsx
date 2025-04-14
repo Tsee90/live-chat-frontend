@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import API from '../api';
+import styles from '../styles/PasswordReset.module.css';
 
 const PasswordReset = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email');
   const { code } = useParams();
@@ -11,6 +13,7 @@ const PasswordReset = () => {
     confirmPassword: '',
   });
   const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState(false);
 
   const validate = () => {
     const newErrors = {};
@@ -30,7 +33,7 @@ const PasswordReset = () => {
     setErrors({});
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length) {
@@ -38,29 +41,64 @@ const PasswordReset = () => {
       return;
     }
     console.log(code, email, formData.password);
-    API.post(`/users/password-reset/${code}`, {
-      email,
-      newPassword: formData.password,
-    });
+    try {
+      await API.post(`/users/password-reset/${code}`, {
+        email,
+        newPassword: formData.password,
+      });
+      setSuccess(true);
+    } catch {
+      console.log('An unexpected error occurred');
+    }
   };
   return (
-    <div>
-      <div>Reset Password</div>
-      <form action="" onSubmit={handleSubmit}>
-        <input
-          type="password"
-          name="password"
-          placeholder="New password"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm new password"
-          onChange={handleChange}
-        />
-        <button type="submit">Submit</button>
-      </form>
+    <div
+      className={`defaultMainContainer gap10px alignItemsCenter marginTop25px`}
+    >
+      <div className={`fontWeightBold textAlignCenter`}>Reset Password</div>
+      {success ? (
+        <div className={`displayFlexColumn gap10px alignItemsCenter`}>
+          <div className={`textAlignCenter`}>
+            Your password has been successfully reset.
+          </div>
+          <div>
+            Return to{' '}
+            <span
+              className={`defaultLink textAlignCenter`}
+              onClick={() => {
+                navigate('/login');
+              }}
+            >
+              log in
+            </span>
+          </div>
+        </div>
+      ) : (
+        <form
+          action=""
+          onSubmit={handleSubmit}
+          className={`displayFlexColumn gap10px alignItemsCenter ${styles.form}`}
+        >
+          <input
+            type="password"
+            name="password"
+            placeholder="New password"
+            onChange={handleChange}
+            className={`defaultInput`}
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm new password"
+            onChange={handleChange}
+            className={`defaultInput`}
+          />
+          <button type="submit" className={`defaultButton ${styles.button}`}>
+            Submit
+          </button>
+        </form>
+      )}
+
       {Object.keys(errors).length > 0
         ? Object.values(errors).map((error, index) => (
             <p key={index} className={`defaultErrorText`}>

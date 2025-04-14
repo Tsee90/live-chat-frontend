@@ -1,0 +1,12 @@
+.mainContainer {
+  margin-top: 25px;
+}
+
+.button {
+  background-color: var(--theme-color);
+  color: white;
+}
+
+.button:hover {
+  filter: brightness(1.2);
+}
