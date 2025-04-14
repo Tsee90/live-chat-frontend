@@ -193,7 +193,13 @@ const Room = () => {
         className={`displayFlexColumn alignItemsCenter flexGrow1 ${styles.usersList} `}
       >
         {users.map((user) => (
-          <li key={user.id} className={`displayFlexRow`}>
+          <li
+            key={user.id}
+            className={`displayFlexRow defaultLink`}
+            onClick={() => {
+              navigate(`/dashboard/${user.username}`);
+            }}
+          >
             {user.username}
           </li>
         ))}
@@ -280,6 +286,7 @@ const Room = () => {
             jumpToBottom(); // Delay focus slightly after state update
           }, 50);
         }}
+        autoComplete="off"
       />
       <button
         onMouseDown={(e) => {
@@ -302,7 +309,12 @@ const Room = () => {
     >
       {messages.map((msg) => (
         <div key={msg.id} className={`${styles.messageItem}`}>
-          <span className={`themeColor fontWeightBold`}>
+          <span
+            className={`defaultLink fontWeightBold`}
+            onClick={() => {
+              navigate(`/dashboard/${msg.sender.username}`);
+            }}
+          >
             {msg.sender.username}:
           </span>{' '}
           {msg.content}
