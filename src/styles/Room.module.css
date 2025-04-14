@@ -78,6 +78,7 @@
 .inputContainer {
   position: sticky;
   height: 6%;
+  min-height: 50px;
 }
 
 .input {
