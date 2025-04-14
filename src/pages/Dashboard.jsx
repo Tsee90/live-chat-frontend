@@ -85,7 +85,7 @@ const Dashboard = () => {
           const checkPending = await API.get(
             `/friends/is-pending/${userData?.id}`
           );
-          console.log(checkPending.data.arePending);
+
           setIsPending(checkPending.data.arePending);
         }
       } catch {
