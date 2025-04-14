@@ -35,7 +35,6 @@ const Room = () => {
 
     const fetchRoom = async () => {
       try {
-        socket.emit('join_room', { roomId });
         const { data } = await API.get(`/rooms/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -45,9 +44,14 @@ const Room = () => {
         setRoomName(name);
         setUsers(users);
         setActive(active);
+        socket.emit('join_room', { roomId });
       } catch (error) {
-        console.error('Failed to fetch room:', error);
-        setError('Failed to load room. Please try again.');
+        console.error('Failed to fetch room');
+        if (error.response.status == 404) {
+          setError('Room does not exists.');
+        } else {
+          setError('Failed to load room. Please try again.');
+        }
       } finally {
         setLoading(false);
         jumpToBottom();
